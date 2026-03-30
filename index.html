@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daniel Jang — Data Scientist</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Instrument+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --white: #ffffff;
+      --off: #f7f6f3;
+      --ink: #111111;
+      --mid: #555555;
+      --faint: #cccccc;
+      --rule: #e4e4e0;
+      --accent: #d4622a;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--white);
+      color: var(--ink);
+      font-family: 'Instrument Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.65;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      background: var(--white);
+      border-bottom: 1px solid var(--rule);
+      padding: 0 4rem;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--ink); text-decoration: none; }
+    .nav-links { list-style: none; display: flex; gap: 2.5rem; }
+    .nav-links a { font-size: 0.78rem; font-weight: 400; color: var(--mid); text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.15s; }
+    .nav-links a:hover { color: var(--ink); }
+
+    /* HERO */
+    #hero {
+      padding: 120px 4rem 80px;
+      border-bottom: 1px solid var(--rule);
+      display: grid;
+      grid-template-columns: 1fr 260px;
+      gap: 4rem;
+      align-items: end;
+    }
+    .hero-kicker { font-size: 0.76rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.2rem; opacity: 0; animation: rise 0.5s ease forwards 0.1s; }
+
+    h1.hero-name {
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.4rem;
+      opacity: 0;
+      animation: rise 0.6s ease forwards 0.25s;
+    }
+    .name-first {
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: clamp(3.8rem, 7.5vw, 7rem);
+      font-weight: 500;
+      display: block;
+      letter-spacing: -0.03em;
+    }
+    .name-nick {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3.6rem);
+      font-style: italic;
+      font-weight: 400;
+      color: var(--mid);
+      display: block;
+      letter-spacing: -0.01em;
+    }
+    .name-last {
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: clamp(3.8rem, 7.5vw, 7rem);
+      font-weight: 500;
+      display: block;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-bio { font-size: 1.05rem; color: var(--mid); max-width: 540px; margin-bottom: 2rem; opacity: 0; animation: rise 0.6s ease forwards 0.4s; }
+    .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; opacity: 0; animation: rise 0.6s ease forwards 0.55s; }
+    .btn { display: inline-block; font-size: 0.76rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; padding: 0.65rem 1.6rem; transition: all 0.18s; }
+    .btn-solid { background: var(--ink); color: var(--white); }
+    .btn-solid:hover { background: var(--accent); }
+    .btn-outline { border: 1px solid var(--faint); color: var(--mid); }
+    .btn-outline:hover { border-color: var(--ink); color: var(--ink); }
+
+    /* HERO ASIDE */
+    .hero-aside {
+      display: flex;
+      flex-direction: column;
+      gap: 1.8rem;
+      align-self: end;
+      padding-bottom: 0.3rem;
+      opacity: 0;
+      animation: rise 0.6s ease forwards 0.65s;
+    }
+    .hero-exp { border-left: 2px solid var(--ink); padding-left: 1.2rem; }
+    .hero-exp-n { font-family: 'Playfair Display', serif; font-size: 2.8rem; font-weight: 700; line-height: 1; color: var(--ink); }
+    .hero-exp-l { font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mid); margin-top: 0.2rem; }
+
+    .currently-label { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--faint); margin-bottom: 0.8rem; }
+    .currently-list { list-style: none; border-top: 1px solid var(--rule); }
+    .currently-item { display: flex; gap: 0.75rem; align-items: baseline; padding: 0.55rem 0; border-bottom: 1px solid var(--rule); }
+    .ci-key { font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--faint); min-width: 52px; flex-shrink: 0; }
+    .ci-val { font-size: 0.82rem; color: var(--ink); font-weight: 400; }
+    .ci-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #4caf6e; margin-right: 0.4rem; vertical-align: middle; position: relative; top: -1px; }
+
+    /* SECTIONS */
+    section { padding: 5rem 4rem; border-bottom: 1px solid var(--rule); }
+    .sh { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 3rem; }
+    .sh-num { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
+    .sh-title { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 700; letter-spacing: -0.02em; }
+
+    /* ABOUT */
+    #about { background: var(--off); }
+    .about-wrap { display: grid; grid-template-columns: 5fr 4fr; gap: 5rem; }
+    .about-body p { color: var(--mid); font-size: 1rem; margin-bottom: 1rem; }
+    .about-body p strong { color: var(--ink); font-weight: 500; }
+    .about-body p:last-child { margin-bottom: 0; }
+
+    .skills-col { display: flex; flex-direction: column; gap: 1.8rem; }
+    .sg-label { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; }
+    .tag-row { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag { font-size: 0.78rem; color: var(--mid); border: 1px solid var(--rule); padding: 0.25rem 0.75rem; background: var(--white); transition: all 0.15s; cursor: default; }
+    .tag:hover { border-color: var(--ink); color: var(--ink); }
+    .tag-course { font-size: 0.78rem; color: var(--mid); border: 1px solid var(--rule); padding: 0.25rem 0.75rem; background: var(--off); transition: all 0.15s; cursor: default; font-style: italic; }
+    .tag-course:hover { border-color: var(--ink); color: var(--ink); }
+
+    /* EXPERIENCE */
+    #experience { background: var(--white); }
+    .exp-list { display: flex; flex-direction: column; }
+    .exp-row { display: grid; grid-template-columns: 180px 1fr; gap: 2.5rem; padding: 2.5rem 0; border-top: 1px solid var(--rule); }
+    .exp-period { font-size: 0.76rem; color: var(--mid); margin-bottom: 0.3rem; }
+    .exp-co { font-size: 0.82rem; font-weight: 500; color: var(--ink); }
+    .exp-loc { font-size: 0.74rem; color: var(--faint); margin-top: 0.1rem; }
+    .exp-role { font-family: 'Playfair Display', serif; font-size: 1.2rem; margin-bottom: 0.8rem; }
+    .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.35rem; }
+    .exp-bullets li { font-size: 0.88rem; color: var(--mid); padding-left: 1.1rem; position: relative; }
+    .exp-bullets li::before { content: '/'; position: absolute; left: 0; color: var(--faint); }
+
+    /* PROJECTS */
+    #projects { background: var(--off); }
+    .proj-section-label { font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mid); border-bottom: 1px solid var(--rule); padding-bottom: 0.6rem; }
+    .proj-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin-bottom: 3rem; }
+    .proj-card { background: var(--white); padding: 2.2rem; transition: background 0.2s; }
+    .proj-card:hover { background: var(--off); }
+    .proj-date { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.6rem; }
+    .proj-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; margin-bottom: 0.7rem; line-height: 1.25; }
+    .proj-desc { font-size: 0.86rem; color: var(--mid); margin-bottom: 1.2rem; line-height: 1.6; }
+    .proj-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; align-items: center; }
+    .ptag { font-size: 0.72rem; color: var(--mid); border: 1px solid var(--rule); padding: 0.18rem 0.6rem; background: var(--off); }
+    .badge-special { font-size: 0.72rem; font-weight: 500; color: var(--accent); border: 1px solid var(--accent); padding: 0.18rem 0.6rem; }
+    .proj-result { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; color: var(--ink); background: var(--off); border: 1px solid var(--rule); padding: 0.3rem 0.75rem; margin-bottom: 1rem; }
+    .proj-result strong { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--accent); font-weight: 700; }
+
+    /* RESUME */
+    #resume { background: var(--white); }
+    .resume-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    .resume-left h3 { font-family: 'Playfair Display', serif; font-size: 1.6rem; margin-bottom: 0.8rem; letter-spacing: -0.02em; }
+    .resume-left p { font-size: 0.92rem; color: var(--mid); margin-bottom: 1.5rem; }
+    .creds { border-top: 1px solid var(--rule); }
+    .cred-item { padding: 0.9rem 0; border-bottom: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+    .cred-name { font-size: 0.85rem; color: var(--ink); }
+    .cred-year { font-size: 0.78rem; color: var(--faint); white-space: nowrap; }
+
+    /* CONTACT */
+    #contact { background: var(--ink); color: var(--white); border-bottom: none; }
+    .contact-headline { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 1.2rem; }
+    .contact-headline em { font-style: italic; font-weight: 400; color: var(--accent); }
+    .contact-sub { font-size: 1rem; color: #888; margin-bottom: 2.5rem; max-width: 440px; }
+    .contact-links { display: flex; gap: 2rem; flex-wrap: wrap; }
+    .cl { font-size: 0.85rem; color: #aaa; text-decoration: none; border-bottom: 1px solid #333; padding-bottom: 2px; transition: all 0.15s; }
+    .cl:hover { color: var(--white); border-color: var(--white); }
+
+    footer { background: var(--ink); border-top: 1px solid #1e1e1e; padding: 1.2rem 4rem; display: flex; justify-content: space-between; }
+    footer span { font-size: 0.72rem; color: #555; letter-spacing: 0.04em; }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 860px) {
+      nav { padding: 0 1.5rem; }
+      .nav-links { gap: 1.2rem; }
+      section, #contact { padding: 4rem 1.5rem; }
+      #hero { padding: 7rem 1.5rem 4rem; grid-template-columns: 1fr; }
+      footer { padding: 1.2rem 1.5rem; }
+      .about-wrap { grid-template-columns: 1fr; gap: 2.5rem; }
+      .exp-row { grid-template-columns: 1fr; gap: 0.4rem; }
+      .proj-grid { grid-template-columns: 1fr; }
+      .resume-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="#hero" class="nav-logo">Daniel (Heedong) Jang</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#resume">Resume</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <section id="hero">
+    <div>
+      <p class="hero-kicker">Data Scientist · AI Engineer · CMU Heinz '26</p>
+      <h1 class="hero-name">
+        <span class="name-first">Daniel</span>
+        <span class="name-nick">"Heedong"</span>
+        <span class="name-last">Jang</span>
+      </h1>
+      <p class="hero-bio">6+ years building ML systems that ship: churn models, recommendation engines, ETL pipelines, and LLM-powered NLP. Now at CMU, studying how to do it at scale.</p>
+      <div class="hero-ctas">
+        <a href="#projects" class="btn btn-solid">View Projects</a>
+        <a href="mailto:heedongj@andrew.cmu.edu" class="btn btn-outline">Get in Touch</a>
+        <a href="https://linkedin.com" target="_blank" class="btn btn-outline">LinkedIn ↗</a>
+        <a href="https://github.com" target="_blank" class="btn btn-outline">GitHub ↗</a>
+      </div>
+    </div>
+
+    <div class="hero-aside">
+      <div>
+        <div class="currently-label">Currently</div>
+        <ul class="currently-list">
+          <li class="currently-item">
+            <span class="ci-key">Status</span>
+            <span class="ci-val"><span class="ci-dot"></span>Open to opportunities</span>
+          </li>
+          <li class="currently-item">
+            <span class="ci-key">Based</span>
+            <span class="ci-val">Pittsburgh, PA</span>
+          </li>
+          <li class="currently-item">
+            <span class="ci-key">Study</span>
+            <span class="ci-val">CMU Heinz — MISM-BIDA</span>
+          </li>
+          <li class="currently-item">
+            <span class="ci-key">Grad</span>
+            <span class="ci-val">December 2026</span>
+          </li>
+          <li class="currently-item">
+            <span class="ci-key">Focus</span>
+            <span class="ci-val">ML Engineering · LLM Systems</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="sh"><span class="sh-num">01</span><h2 class="sh-title">About</h2></div>
+    <div class="about-wrap">
+      <div class="about-body">
+        <p>Data Scientist with <strong>6+ years of production experience</strong>, currently pursuing a Master's at <strong>Carnegie Mellon University (Heinz College)</strong>.</p>
+        <p>My background spans the full ML lifecycle: from ETL pipeline engineering and feature design to shipping churn models and NLP systems used by global teams. I prioritize data quality above all else, because clean, reliable data is the foundation everything else is built on.</p>
+        <p>At CMU, I'm expanding into machine learning, A/B testing, time series forecasting, and unstructured data analytics, bringing coursework directly into applied projects.</p>
+        <p>Fluent in <strong>English</strong>, native <strong>Korean</strong>. Based in Pittsburgh, PA.</p>
+      </div>
+      <div class="skills-col">
+        <div>
+          <div class="sg-label">Core Stack</div>
+          <div class="tag-row">
+            <span class="tag">Python</span><span class="tag">PyTorch</span><span class="tag">Scikit-learn</span><span class="tag">LangChain</span><span class="tag">TensorFlow</span><span class="tag">SQL</span>
+            <span class="tag">R</span><span class="tag">Java</span>
+          </div>
+        </div>
+        <div>
+          <div class="sg-label">Infrastructure</div>
+          <div class="tag-row">
+            <span class="tag">Azure Data Factory</span><span class="tag">Snowflake</span><span class="tag">Databricks</span>
+            <span class="tag">AWS</span>
+            <span class="tag">Google Colab</span>
+            <span class="tag">MSSQL</span>
+            <span class="tag">Power BI</span><span class="tag">Tableau</span>
+          </div>
+        </div>
+        <div>
+          <div class="sg-label">Methods</div>
+          <div class="tag-row">
+            <span class="tag">LLM Applications</span>
+            <span class="tag">Time Series Forecasting</span>
+            <span class="tag">A/B Testing</span>
+            <span class="tag">NLP</span>
+            <span class="tag">Machine Modeling</span>
+            <span class="tag">Deep Learning</span>
+            <span class="tag">Prediction Modeling</span>
+            
+            <span class="tag">Statistics</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="education">
+    <div class="sh"><span class="sh-num">02</span><h2 class="sh-title">Education</h2></div>
+    <div class="exp-list">
+
+      <div class="exp-row">
+        <div>
+          <div class="exp-period">Aug 2025 — Dec 2026</div>
+          <div class="exp-co">Carnegie Mellon University</div>
+          <div class="exp-loc">Pittsburgh, PA</div>
+        </div>
+        <div>
+          <div class="exp-role">M.S. Information Systems Management</div>
+          <ul class="exp-bullets">
+            <li>Heinz College of Information Systems and Public Policy</li>
+            <li>Concentration: Business Intelligence and Data Analytics</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-row">
+        <div>
+          <div class="exp-period">Aug 2010 — May 2016</div>
+          <div class="exp-co">Syracuse University</div>
+          <div class="exp-loc">Syracuse, NY</div>
+        </div>
+        <div>
+          <div class="exp-role">B.S. Information Management and Technology</div>
+          <ul class="exp-bullets">
+            <li>School of Information Studies</li>
+            <li>Graduated Cum Laude</li>
+            <li>With mandatory military service completed 2012–2014, Republic of Korea Army</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="sh"><span class="sh-num">03</span><h2 class="sh-title">Experience</h2></div>
+    <div class="exp-list">
+
+      <div class="exp-row">
+        <div>
+          <div class="exp-period">Oct 2021 — Jun 2025</div>
+          <div class="exp-co">Kimberly-Clark</div>
+          <div class="exp-loc">Seoul, South Korea</div>
+        </div>
+        <div>
+          <div class="exp-role">Data Scientist — AI Labs</div>
+          <ul class="exp-bullets">
+            <li>Refactored RoBERTa-based NLP pipeline to fine-tuned GPT system, improving accuracy from 60% to 92% and cutting vendor costs by 90%, adopted by APAC and US teams</li>
+            <li>Engineered scalable ETL pipelines using Azure Data Factory and Snowflake, reducing data processing latency from 24 hours to real-time</li>
+            <li>Built LightGBM churn model for MomQ e-commerce platform, delivery zone feature engineering drove 20% retention improvement among high-risk users</li>
+            <li>Developed size-transition recommendation model, A/B tested across 10,000 users, achieving 2x conversion rate in targeted cohort vs. random group</li>
+            <li>Collaborated with marketing, sales, and product stakeholders to align data science solutions with business objectives across global teams</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-row">
+        <div>
+          <div class="exp-period">Mar 2020 — Oct 2021</div>
+          <div class="exp-co">Codestates</div>
+          <div class="exp-loc">Seoul, South Korea</div>
+        </div>
+        <div>
+          <div class="exp-role">AI Bootcamp</div>
+          <ul class="exp-bullets">
+            <li>Completed an intensive AI/ML curriculum covering machine learning, deep learning, statistics, and data engineering</li>
+            <li>Built hands-on projects across EDA, feature engineering, hypothesis testing, clustering, and linear algebra</li>
+            <li>Transitioned from data analysis and consulting into full data science, leading directly to a Data Scientist role at Kimberly-Clark</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-row">
+        <div>
+          <div class="exp-period">Nov 2018 — Sep 2019</div>
+          <div class="exp-co">Unico Search</div>
+          <div class="exp-loc">Seoul, South Korea</div>
+        </div>
+        <div>
+          <div class="exp-role">Consultant — ICT</div>
+          <ul class="exp-bullets">
+            <li>Analyzed candidate response rates and recruitment metrics to optimize sourcing strategies and improve hiring efficiency</li>
+            <li>Consulted with tech industry clients to understand technical requirements and match them with qualified ICT professionals</li>
+            <li>Monitored industry trends and leveraged market data to provide strategic talent acquisition insights</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-row">
+        <div>
+          <div class="exp-period">Oct 2017 — Current</div>
+          <div class="exp-co">Saerona Solar Systems</div>
+          <div class="exp-loc">Seoul, South Korea</div>
+        </div>
+        <div>
+          <div class="exp-role">Entrepreneur</div>
+          <ul class="exp-bullets">
+            <li>Managed end-to-end solar energy generation projects including site research, hardware procurement, and infrastructure installation</li>
+            <li>Structured and negotiated a 20-year Power Purchase Agreement with Korea Electric Power Corporation (KEPCo) to commercialize energy output</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-row">
+        <div>
+          <div class="exp-period">Aug 2016 — Jul 2017</div>
+          <div class="exp-co">Cavtil, Inc.</div>
+          <div class="exp-loc">New York, NY</div>
+        </div>
+        <div>
+          <div class="exp-role">Data Analyst</div>
+          <ul class="exp-bullets">
+            <li>Conducted market and competitive research to evaluate viability of K-12 educational content services, analyzing user demographics and purchasing data</li>
+            <li>Designed interactive Tableau dashboards to translate complex data into actionable business strategies</li>
+            <li>Delivered data-driven insights and strategic recommendations directly to CEO and COO to guide product development</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-row">
+        <div>
+          <div class="exp-period">Dec 2015 — Jan 2016</div>
+          <div class="exp-co">Jeju Air</div>
+          <div class="exp-loc">Seoul, South Korea</div>
+        </div>
+        <div>
+          <div class="exp-role">Data Analyst Intern</div>
+          <ul class="exp-bullets">
+            <li>Analyzed qualitative user feedback from customer service channels, translating pain points into actionable service quality improvements</li>
+            <li>Evaluated digital platform UI/UX to identify user friction points and recommend data-driven usability enhancements</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+</section>
+
+  <section id="projects">
+    <div class="sh"><span class="sh-num">03</span><h2 class="sh-title">Projects</h2></div>
+
+    <div class="proj-section-label">Professional</div>
+    <div class="proj-grid" style="margin-top:0;">
+
+      <div class="proj-card">
+        <div class="proj-date">Kimberly-Clark · 2021–2024</div>
+        <div class="proj-title">NLP-powered Risk Management Dashboard</div>
+        <div class="proj-result"><strong>60% to 92%</strong> Accuracy · <strong>90%</strong> Cost reduction</div>
+        <p class="proj-desc">Replaced a 500M KRW/year third-party vendor with an internal NLP pipeline for social sentiment and topic classification. Upgraded from RoBERTa to fine-tuned GPT APIs on proprietary labeled data, improving accuracy from 60% to 92% with better handling of Korean slang and multilingual context. Adopted by APAC and US teams as a regional standard.</p>
+        <div class="proj-tags">
+          <span class="ptag">RoBERTa</span><span class="ptag">GPT Fine-tuning</span><span class="ptag">NLP</span><span class="ptag">Risk Management</span><span class="ptag">Multilingual</span><span class="ptag">Power BI</span>
+        </div>
+      </div>
+
+
+      <div class="proj-card">
+        <div class="proj-date">Kimberly-Clark · 2022–2023</div>
+        <div class="proj-title">MomQ Churn Prediction</div>
+        <div class="proj-result"><strong>20%</strong> Retention improvement among high-risk users</div>
+        <p class="proj-desc">Users were leaving Kimberly-Clark's e-commerce app for Coupang's Rocket Delivery. Identified delivery zone as the key churn signal through feature engineering on shipping addresses. Proposed and validated a 2-day to 1-day shipping pilot for high-risk regions, confirmed via A/B test over 2 months.</p>
+        <div class="proj-tags">
+          <span class="ptag">LightGBM</span><span class="ptag">Feature Engineering</span><span class="ptag">A/B Testing</span><span class="ptag">EDA</span>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-date">Kimberly-Clark · 2023</div>
+        <div class="proj-title">Size 4 Diaper Recommendation Model</div>
+        <div class="proj-result"><strong>2x</strong> Conversion vs. random group (10K user A/B test)</div>
+        <p class="proj-desc">Sales dropped sharply at the diaper size 3 to 4 transition. Built a recommendation model using child age, previous size, and order recency to predict which parents were approaching size 4. Sent targeted coupons to 5,000 predicted users and 5,000 random users. Targeted cohort showed 2x the conversion rate.</p>
+        <div class="proj-tags">
+          <span class="ptag">Recommendation Model</span><span class="ptag">Scikit-learn</span><span class="ptag">A/B Testing</span><span class="ptag">CRM</span>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-date">Kimberly-Clark · 2022–2024</div>
+        <div class="proj-title">Scalable ETL Pipeline for ML Consumption</div>
+        <div class="proj-result"><strong>24h to Real-time</strong> Data processing latency</div>
+        <p class="proj-desc">Engineered end-to-end ETL pipelines using Azure Data Factory and Snowflake, integrating raw e-commerce logs and demographic data into a unified analytical dataset. Automated daily workflows via ADF triggers and transformed data using Databricks (PySpark/Pandas), enabling real-time insights via Power BI without manual intervention.</p>
+        <div class="proj-tags">
+          <span class="ptag">Azure Data Factory</span><span class="ptag">Snowflake</span><span class="ptag">Databricks</span><span class="ptag">PySpark</span><span class="ptag">Power BI</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-section-label" style="margin-top: 3rem;">Academic</div>
+    <div class="proj-grid" style="margin-top:0;">
+
+      <div class="proj-card">
+        <div class="proj-date">Feb 2026 · CMU</div>
+        <div class="proj-title">Cedar: Climate-Informed Micro-finance Platform</div>
+        <p class="proj-desc">Lending platform integrating real-time weather data and LLM-based interview transcription to optimize credit risk in climate-vulnerable regions. XGBoost risk scoring engine correlates extreme weather patterns with loan defaults.</p>
+        <div class="proj-tags">
+          <span class="ptag">XGBoost</span><span class="ptag">LLM</span><span class="ptag">Python</span><span class="ptag">Risk Modeling</span>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-date">Feb 2026 · ProdHacks</div>
+        <div class="proj-title">Orbit: BLE Proximity Networking App</div>
+        <p class="proj-desc">Proximity-based networking app using Bluetooth Low Energy GAP advertising packets for real-time, privacy-first connections. Mutual digital handshake protocol for selective data sharing.</p>
+        <div class="proj-tags">
+          <span class="ptag">BLE</span><span class="ptag">Mobile</span><span class="ptag">Privacy-First UX</span>
+          <span class="badge-special">🏆 ProdHacks 2026 Finalist</span>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-date">Jan 2026 · CMU x Databricks x UN</div>
+        <div class="proj-title">UN Humanitarian Data Validation Framework</div>
+        <p class="proj-desc">Validation framework on Databricks identifying cost-efficiency outliers by correlating humanitarian project budgets with population data. Interactive dashboards for beneficiary targeting performance auditing.</p>
+        <div class="proj-tags">
+          <span class="ptag">Databricks</span><span class="ptag">Python</span><span class="ptag">Data Visualization</span>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-date">Oct 2025 · CMU</div>
+        <div class="proj-title">Duolingo User Segmentation & Monetization</div>
+        <p class="proj-desc">K-Means clustering and Logistic Regression to identify high-potential subscription segments. Designed targeted A/B testing framework to optimize the Super Duolingo upsell funnel.</p>
+        <div class="proj-tags">
+          <span class="ptag">Scikit-learn</span><span class="ptag">K-Means</span><span class="ptag">A/B Testing</span><span class="ptag">Logistic Regression</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="margin-top: 2rem;">
+  <div class="proj-section-label">Coursework</div>
+    <div style="display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem;">
+      <span class="tag-course">Machine Learning</span>
+      <span class="tag-course">Unstructured Data Analytics</span>
+      <span class="tag-course">A/B Testing and Design</span>
+      <span class="tag-course">Time Series Forecasting</span>
+      <span class="tag-course">Data Science and Big Data</span>
+      <span class="tag-course">Applied Econometrics</span>
+      <span class="tag-course">Database Management</span>
+      <span class="tag-course">Data-Focused Python</span>
+      <span class="tag-course">Stats for IT Managers</span>
+      <span class="tag-course">Advanced Business Analytics</span>
+      <span class="tag-course">Java Programming</span>
+  </div>
+</div>
+  </section>
+
+  <section id="resume">
+    <div class="sh"><span class="sh-num">04</span><h2 class="sh-title">Resume</h2></div>
+    <div class="resume-inner">
+      <div class="resume-left">
+        <h3>Full CV available for download.</h3>
+        <p>Covers 6+ years across data science, AI engineering, and analytics, including all credentials, coursework, and additional roles.</p>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+          <a href="Jang_Daniel_Heedong_Resume_Final.pdf" download class="btn btn-solid">Download PDF</a>
+          <a href="mailto:heedongj@andrew.cmu.edu" class="btn btn-outline">Request Version</a>
+        </div>
+      </div>
+      <div>
+        <div class="sg-label" style="margin-bottom:0.8rem;">Selected Credentials</div>
+        <div class="creds">
+          <div class="cred-item"><span class="cred-name">Java Programming, UCSC Silicon Valley Extension</span><span class="cred-year">2025</span></div>
+          <div class="cred-item"><span class="cred-name">Deep Learning Time Series, Learning Spoons</span><span class="cred-year">2024</span></div>
+          <div class="cred-item"><span class="cred-name">DP-203: Azure Data Engineering, Microsoft</span><span class="cred-year">2022</span></div>
+          <div class="cred-item"><span class="cred-name">AI Boot Camp, Codestates</span><span class="cred-year">2021</span></div>
+          <div class="cred-item"><span class="cred-name">Data Analysis with Python, Fastcampus</span><span class="cred-year">2019</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2 class="contact-headline">Let's build<br>something <em>good.</em></h2>
+    <p class="contact-sub">Open to full-time roles, internships, and interesting collaborations in data science and AI.</p>
+    <div class="contact-links">
+      <a href="mailto:heedongj@andrew.cmu.edu" class="cl">heedongj@andrew.cmu.edu</a>
+      <a href="tel:4126792535" class="cl">412-679-2535</a>
+      <a href="https://linkedin.com" target="_blank" class="cl">LinkedIn ↗</a>
+      <a href="https://github.com" target="_blank" class="cl">GitHub ↗</a>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 Daniel Jang</span>
+    <span>Pittsburgh, PA · CMU Heinz '26</span>
+  </footer>
+
+</body>
+</html>
