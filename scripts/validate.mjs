@@ -3,6 +3,7 @@ import { readFile, readdir, stat } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
 import { demoData } from './dashboard-data.mjs';
+import { outputSpecs, claimFixtures, claimOutcome } from './outputs.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const projectIds = ['screening','teaming','tui','synthetic','risk','basd','crm','power','voc','humanitarian','fraud','job-radar','rag'];
@@ -20,6 +21,14 @@ assert.equal(demo.records.filter(r=>r.source==='community').length, 232, 'Commun
 assert.ok(demo.records.every(r=>!r.flagged || r.sentiment==='negative' && r.keyword), 'Flags must have a signal and a negative annotation');
 assert.deepEqual(projectLinks(home), featuredIds, 'Homepage must feature the agreed six projects');
 assert.deepEqual(projectLinks(index), projectIds, 'Index must contain all thirteen projects once');
+assert.equal((index.match(/class="output-thumbnail"/g)||[]).length,13,'Every project needs an index thumbnail');
+assert.equal(Object.keys(outputSpecs).length,12,'Twelve projects supplement the standalone NLP dashboard');
+for (const threshold of [.25,.5,.75]) {
+  const c=claimOutcome(threshold);
+  assert.equal(c.tp+c.fp+c.tn+c.fn,claimFixtures.length,'Demo confusion matrix must account for every fictional claim');
+  assert.equal(c.tp+c.fn,8,'Changing a threshold cannot change the underlying fraud labels');
+}
+assert.deepEqual(claimOutcome(.5),{tp:6,fp:14,tn:18,fn:2,cost:37000},'Midpoint demo threshold must reconcile counts and assumed error costs');
 
 for (const id of projectIds) {
   const html = await read(`projects/${id}/index.html`);
@@ -32,6 +41,13 @@ for (const id of projectIds) {
     assert.ok(html.includes(`<dt>${label}</dt>`), `${id}: missing ${label}`);
   }
   assert.ok(!/\b(?:undefined|TODO|TBD)\b/.test(html), `${id}: unfinished content`);
+  if(outputSpecs[id]) {
+    assert.ok(html.includes('id="output-preview"'),`${id}: missing output preview`);
+    assert.ok(html.includes(outputSpecs[id].note),`${id}: missing reconstruction disclosure`);
+    const options=[...html.matchAll(/<option value="(output-[^"]+)"/g)].map(m=>m[1]);
+    assert.ok(options.length>=2,`${id}: preview needs selectable examples`);
+    for(const option of options)assert.ok(html.includes(`id="${option}"`),`${id}: missing example panel`);
+  }
 }
 
 async function htmlFiles(directory = '') {

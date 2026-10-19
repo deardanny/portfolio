@@ -4,12 +4,13 @@ import { dirname, resolve, join } from 'node:path';
 import { createHash } from 'node:crypto';
 import { projects, featuredIds, groups, projectVisualHTML } from './projects.mjs';
 import { dashboardPageHTML, dashboardPreviewHTML } from './dashboard.mjs';
+import { projectOutputHTML, outputThumbnail, outputSpecs } from './outputs.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const origin = 'https://hdjang.com';
 const year = 2026;
 const assetVersions = Object.fromEntries(await Promise.all(
-  ['assets/site.css','assets/projects.css','assets/site.js','assets/charts.js','assets/favicon.svg','assets/dashboard.css','assets/dashboard.js'].map(async path =>
+  ['assets/site.css','assets/projects.css','assets/site.js','assets/charts.js','assets/favicon.svg','assets/dashboard.css','assets/dashboard.js','assets/outputs.css'].map(async path =>
     [path, createHash('sha256').update(await readFile(join(root, path))).digest('hex').slice(0,12)]
   )
 ));
@@ -35,7 +36,7 @@ function shell({title, description, active, path, body, charts=false}) {
   <meta property="og:image" content="${origin}/assets/portrait.jpg">
   <meta property="og:image:alt" content="Daniel (Heedong) Jang">
   <link rel="icon" href="${asset('assets/favicon.svg')}" type="image/svg+xml">
-  <link rel="stylesheet" href="${asset('assets/site.css')}">
+  <link rel="stylesheet" href="${asset('assets/site.css')}">${active==='projects'?`\n  <link rel="stylesheet" href="${asset('assets/outputs.css')}">`:''}
   <script src="${asset('assets/site.js')}" defer></script>
   ${charts?`<link rel="stylesheet" href="${asset('assets/projects.css')}"><script src="${asset('assets/charts.js')}" defer></script>`:''}
 </head>
@@ -65,7 +66,7 @@ function resourceLinks(p, className='') {
   return (p.resources || []).map(r=>`<a${className?` class="${className}"`:''} href="${escape(r.url)}" target="_blank" rel="noopener noreferrer" aria-label="${escape(`${r.label} for ${p.title}`)}">${escape(r.label)} <span aria-hidden="true">↗</span></a>`).join('');
 }
 function workRow(p, number, featured=false) {
-  return `<article class="work-entry" data-project="${p.id}"><a class="work-row${featured?' work-featured':''}" href="/projects/${p.id}/"><span class="work-number" aria-hidden="true">${String(number).padStart(2,'0')}</span><div class="work-copy"><div class="work-topline"><p class="work-meta">${escape(p.meta)}</p><span class="work-status">${escape(p.status)}</span></div><h3>${escape(p.title)}</h3><p class="work-summary">${escape(p.desc)}</p><span class="work-evidence">${escape(p.signal)}<span class="evidence-context"> · ${escape(p.signalContext)}</span></span></div><span class="work-arrow" aria-hidden="true">↗</span></a><div class="work-links"><a href="/projects/${p.id}/" aria-label="${escape(`Case study: ${p.title}`)}">Case study <span aria-hidden="true">→</span></a>${resourceLinks(p)}${p.resourceStatus?`<span class="resource-status">${escape(p.resourceStatus)}</span>`:''}</div></article>`;
+  return `<article class="work-entry" data-project="${p.id}"><a class="work-row${featured?' work-featured':' with-output'}" href="/projects/${p.id}/"><span class="work-number" aria-hidden="true">${String(number).padStart(2,'0')}</span><div class="work-copy"><div class="work-topline"><p class="work-meta">${escape(p.meta)}</p><span class="work-status">${escape(p.status)}</span></div><h3>${escape(p.title)}</h3><p class="work-summary">${escape(p.desc)}</p><span class="work-evidence">${escape(p.signal)}<span class="evidence-context"> · ${escape(p.signalContext)}</span></span></div>${featured?'':outputThumbnail(p.id)}<span class="work-arrow" aria-hidden="true">↗</span></a><div class="work-links"><a href="/projects/${p.id}/" aria-label="${escape(`Case study: ${p.title}`)}">Case study <span aria-hidden="true">→</span></a>${outputSpecs[p.id]?`<a href="/projects/${p.id}/#output-preview" aria-label="${escape(`Interactive preview: ${p.title}`)}">Interactive preview <span aria-hidden="true">↗</span></a>`:''}${resourceLinks(p)}${p.resourceStatus?`<span class="resource-status">${escape(p.resourceStatus)}</span>`:''}</div></article>`;
 }
 const featured = featuredIds.map(id=>projects.find(p=>p.id===id));
 
@@ -95,7 +96,7 @@ const visualFallbacks={risk:'Sentiment accuracy: vendor system 60%; RoBERTa 80%;
 function detail(p) {
   const sections=[['approach','Approach',p.approach],['contribution','My contribution',p.contribution],['evidence','Results & evidence',p.evidence],['context','Scope & interpretation',p.context]];
   const next=projects[(projects.indexOf(p)+1)%projects.length];
-  return `<a class="back-link" href="/projects/">← All 13 projects</a><article class="case-study"><p class="eyebrow">${escape(p.meta)}</p><h1>${escape(p.title)}</h1><p class="page-intro">${escape(p.desc)}</p>${p.resources?.length?`<nav class="case-resources" aria-label="Project resources">${resourceLinks(p,'button')}</nav>`:`<p class="case-resource-status resource-status">${escape(p.resourceStatus)}</p>`}<div class="case-labels"><span class="status-badge">${escape(p.status)}</span>${p.tags.map(t=>`<span>${escape(t)}</span>`).join('')}</div><dl class="case-facts"><div><dt>My role</dt><dd>${escape(p.role)}</dd></div><div><dt>Scope</dt><dd>${escape(p.scope)}</dd></div><div><dt>When</dt><dd>${escape(p.period)}</dd></div></dl><section class="case-question"><h2>The question</h2><p>${escape(p.question)}</p></section>${p.id==='risk'?dashboardPreviewHTML():''}${projectVisualHTML(p)}${visualFallbacks[p.id]?`<noscript><p>${visualFallbacks[p.id]}</p></noscript>`:''}<div class="case-sections">${sections.map(([id,label,text])=>`<section id="${id}"><h2>${label}</h2><p>${escape(text)}</p></section>`).join('')}</div><aside class="case-takeaway"><p class="eyebrow">What this work taught me</p><p>${escape(p.takeaway)}</p></aside><section class="case-materials" aria-label="Project materials"><h2>Project materials</h2><p>${escape(p.materials)}</p></section></article><nav class="case-navigation" aria-label="Other projects"><a href="/projects/">All projects</a><a href="/projects/${next.id}/">Next: ${escape(next.title)} →</a></nav>`;
+  return `<a class="back-link" href="/projects/">← All 13 projects</a><article class="case-study"><p class="eyebrow">${escape(p.meta)}</p><h1>${escape(p.title)}</h1><p class="page-intro">${escape(p.desc)}</p>${p.resources?.length?`<nav class="case-resources" aria-label="Project resources">${resourceLinks(p,'button')}</nav>`:`<p class="case-resource-status resource-status">${escape(p.resourceStatus)}</p>`}<div class="case-labels"><span class="status-badge">${escape(p.status)}</span>${p.tags.map(t=>`<span>${escape(t)}</span>`).join('')}</div><dl class="case-facts"><div><dt>My role</dt><dd>${escape(p.role)}</dd></div><div><dt>Scope</dt><dd>${escape(p.scope)}</dd></div><div><dt>When</dt><dd>${escape(p.period)}</dd></div></dl><section class="case-question"><h2>The question</h2><p>${escape(p.question)}</p></section>${p.id==='risk'?dashboardPreviewHTML():projectOutputHTML(p)}${p.id==='risk'?projectVisualHTML(p):`<details class="output-method"><summary>Method & project evidence <span>Open the supporting figure</span></summary>${projectVisualHTML(p)}</details>`}${visualFallbacks[p.id]?`<noscript><p>${visualFallbacks[p.id]}</p></noscript>`:''}<div class="case-sections">${sections.map(([id,label,text])=>`<section id="${id}"><h2>${label}</h2><p>${escape(text)}</p></section>`).join('')}</div><aside class="case-takeaway"><p class="eyebrow">What this work taught me</p><p>${escape(p.takeaway)}</p></aside><section class="case-materials" aria-label="Project materials"><h2>Project materials</h2><p>${escape(p.materials)}</p></section></article><nav class="case-navigation" aria-label="Other projects"><a href="/projects/">All projects</a><a href="/projects/${next.id}/">Next: ${escape(next.title)} →</a></nav>`;
 }
 
 const pages=[

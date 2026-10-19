@@ -30,6 +30,15 @@
     select.closest('label').hidden = false;
     const update = () => panels.forEach(panel => { panel.hidden = panel.id !== select.value; });
     select.addEventListener('change', update);
+    explorer.querySelectorAll('[data-preview-target]').forEach(button => button.addEventListener('click', () => {
+      const next = panels.find(panel => panel.id === button.dataset.previewTarget);
+      if (!next) return;
+      select.value = next.id;
+      update();
+      // The old panel is now hidden. Move focus to the equivalent visible control.
+      const selectedButton = [...next.querySelectorAll('[data-preview-target]')].find(control => control.dataset.previewTarget === next.id);
+      (selectedButton || select).focus({preventScroll:true});
+    }));
     update();
   });
 })();

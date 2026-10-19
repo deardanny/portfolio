@@ -6,6 +6,7 @@ Personal portfolio at [hdjang.com](https://hdjang.com), published with GitHub Pa
 
 - Update page content in `scripts/build.mjs`, project copy and the six featured IDs in `scripts/projects.mjs`, and project figures in `scripts/visuals.mjs`.
 - Add verified public links through each project's `resources` array. Projects without public resources use `resourceStatus` to explain availability. Links appear on the homepage/index and at the top of the case study; do not link private repositories or restricted Drive files.
+- `scripts/outputs.mjs` contains twelve project-specific interactive reconstructions and report views, styled by `assets/outputs.css`. Existing `data-switch` controls in `assets/site.js` switch pre-rendered examples. Keep fictional fixtures, concept previews and reported results clearly labeled; never imply the new portfolio interface was the original deliverable. Index thumbnails are decorative summaries.
 - Update the shared appearance in `assets/site.css` and project figures in `assets/projects.css`.
 - `assets/site.js` handles the project filters and figure selectors. `assets/charts.js` draws the responsive result charts.
 - The build adds content versions to CSS and JavaScript URLs so returning visitors receive updated styling and interactions after deployment.
