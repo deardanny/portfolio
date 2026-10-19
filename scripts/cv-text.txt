@@ -1,0 +1,39 @@
+Daniel (Heedong) Jang
+hdjang7@gmail.com | 412-679-2535 | https://hdjang.com/ | https://www.linkedin.com/in/heedongjang/ | https://github.com/deardanny
+
+Data scientist building product-issue monitoring and customer-targeting systems. Led an in-house consumer insights platform connecting customer reviews to manufacturing follow-up, and developed predictive models evaluated through CRM experiments.
+
+PROFESSIONAL EXPERIENCE
+Butler Area School District | Butler, PA
+Data Scientist Intern | June 2026 - August 2026
+- Built a cross-school evaluation dataset by extracting and standardizing 50,000+ records from inconsistent document templates; enabled district-, building-, and teacher-level reporting in Power BI.
+- Analyzed 25,000+ qualitative comments with LLMs; found that the lowest-scoring criterion also had the most missing supporting evidence, informing district professional development priorities.
+- Coordinated with principals, departmental users, and data-security staff on PII masking and separate identity mappings to limit exposure of sensitive evaluation data.
+Yuhan-Kimberly (Kimberly-Clark) | Seoul, South Korea
+Data Scientist - AI Labs | October 2021 - June 2025
+Consumer Insights & Product Risk Monitoring
+- Proposed and led an in-house NLP platform covering 100+ products and 20,000+ daily feedback records; replaced vendor dependence with direct data access and reduced annual platform costs by approximately 90%.
+- Cut the time to identify product issues and notify manufacturing from approximately 90 days to 3 days, replacing manual review triggered by falling sales with review-based alerts.
+- Prototyped and implemented GPT-based classification after a RoBERTa model reached 80% accuracy; achieved 95% sentiment accuracy against human-labeled reviews, compared with a 60% vendor baseline.
+- Connected Snowflake and Databricks processing through Azure Data Factory to daily-refresh Power BI reporting, with keyword flags and review prioritization for product-risk investigations.
+Customer Churn & Purchase Propensity
+- Engineered 20+ behavioral and lifecycle features and trained LightGBM churn and purchase propensity models on Databricks, using Hyperopt tuning and MLflow tracking to produce customer-level CRM scores.
+- Partnered with marketers on A/B tests across approximately 14,000 users; the best-performing targeted segment achieved 42% higher CTR than randomly selected customers, with coupons offered to both groups.
+- Automated monthly churn-risk and purchase-propensity reporting in Power BI, enabling marketing teams to identify high-risk segments and prioritize outreach without recurring analyst intervention.
+
+RESEARCH EXPERIENCE
+Carnegie Mellon University | Pittsburgh, PA
+Research Assistant, Human-AI Teaming Lab | May 2026 - Present
+- Developed an LLM classifier for systematic literature screening and benchmarked its classifications against human labels, reaching approximately 0.80 Cohen's kappa agreement.
+- Set confidence thresholds to route uncertain classifications to human reviewers, combining automated screening with human review of ambiguous cases.
+
+EDUCATION
+Carnegie Mellon University, Heinz College | Expected December 2026
+Master of Information Systems Management (Business Intelligence & Data Analytics)
+Syracuse University
+B.S. Information Management & Technology, Cum Laude
+
+TECHNICAL SKILLS
+Programming: Python (pandas, NumPy), SQL, PySpark
+Modeling & Evaluation: scikit-learn, LightGBM, XGBoost, PyTorch, NLP, A/B Testing, Statistical Modeling
+Data & Tools: Databricks, Snowflake, Azure Data Factory, MLflow, LLM APIs, Power BI, Git
