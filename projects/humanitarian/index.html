@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Humanitarian Efficiency Radar — Daniel Jang</title>
+  <meta name="description" content="Making humanitarian budget anomalies explainable and practical to review.">
+  <link rel="canonical" href="https://hdjang.com/projects/humanitarian/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Humanitarian Efficiency Radar — Daniel Jang">
+  <meta property="og:description" content="Making humanitarian budget anomalies explainable and practical to review.">
+  <meta property="og:url" content="https://hdjang.com/projects/humanitarian/">
+  <meta property="og:image" content="https://hdjang.com/assets/portrait.jpg">
+  <meta property="og:image:alt" content="Daniel (Heedong) Jang">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/site.css">
+  <script src="/assets/site.js" defer></script>
+  <link rel="stylesheet" href="/assets/projects.css"><script src="/assets/charts.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div id="research-portfolio"><div class="rp-site">
+    <header class="site-header">
+      <a class="wordmark" href="/">Daniel Jang<span class="wordmark-note">Research & practice</span></a>
+      <nav aria-label="Main navigation"><a href="/">About</a><a href="/projects/" aria-current="page">Research & Projects</a><a href="/experience/">Experience</a><a href="/cv/">CV</a></nav>
+    </header>
+    <div class="site-layout">
+      <aside class="profile" aria-label="Profile">
+        <img src="/assets/portrait.jpg" class="portrait" width="640" height="960" alt="Black-and-white portrait of Daniel Jang">
+        <div class="profile-copy"><a class="profile-name" href="/">Daniel Jang</a><p class="given-name">Heedong Jang · 장희동</p><p class="profile-role">Research Assistant<br>MISM · BIDA<br>Carnegie Mellon University</p><p class="profile-location">Pittsburgh, PA</p></div>
+        <div class="profile-links"><a href="mailto:hdjang7@gmail.com">Email <span aria-hidden="true">↗</span></a><a href="https://www.linkedin.com/in/heedongjang/" target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true">↗</span></a><a href="https://github.com/deardanny" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a></div>
+      </aside>
+      <main id="main"><a class="back-link" href="/projects/">← All 13 projects</a><article class="case-study"><p class="eyebrow">CMU Data Science Club Datathon · Team project</p><h1>Humanitarian Efficiency Radar</h1><p class="page-intro">Making humanitarian budget anomalies explainable and practical to review.</p><div class="case-labels"><span class="status-badge">Completed datathon</span><span>Regression</span><span>Anomaly detection</span><span>Plotly</span><span>Databricks</span></div><dl class="case-facts"><div><dt>My role</dt><dd>Problem framing, communication &amp; notebook assembly</dd></div><div><dt>Scope</dt><dd>UN pooled-fund project budgets</dd></div><div><dt>When</dt><dd>January 2026</dd></div></dl><section class="case-question"><h2>The question</h2><p>Which aid-project budgets look unusual relative to comparable projects, and how can a small review team focus its attention?</p></section><figure class="rp-figure" aria-labelledby="rp-figure-humanitarian"><div class="rp-figure-head"><h2 id="rp-figure-humanitarian">A small review queue, with context</h2><span class="rp-figure-label">FINAL NOTEBOOK COUNTS</span></div><div class="rp-data-source"><div><strong>15,664</strong><span>Projects analyzed</span></div><div><strong>123</strong><span>Flagged for review</span></div><div><strong>0.79%</strong><span>Flagging rate, rounded</span></div></div><div class="review-share" role="img" aria-label="123 of 15,664 projects, approximately 0.79 percent, were flagged"><span style="width:0.7852400408580185%"></span></div><div class="share-labels"><span>Flagged projects</span><span>All analyzed projects</span></div><div class="rp-pipeline"><div class="rp-node"><strong>Group peers</strong><span>Same fund and sector</span></div><div class="rp-node"><strong>Fit benchmark</strong><span>Log budget vs. beneficiaries</span></div><div class="rp-node"><strong>Score residuals</strong><span>Within-group Z-score</span></div><div class="rp-node"><strong>Review</strong><span>Explain unusual budgets</span></div></div><div class="z-bands"><span>Below −3<br><strong>Review</strong></span><span>−3 to +3<br><strong>Within the rule’s bounds</strong></span><span>Above +3<br><strong>Review</strong></span></div><figcaption>A statistical flag is a request for contextual review, not proof of fraud or inefficiency. The proportion shows observed notebook counts; the Z-score band shows the decision rule.</figcaption></figure><div class="case-sections"><section id="approach"><h2>Approach</h2><p>Our team benchmarked projects within fund-and-sector peer groups. A log-budget versus log-beneficiary regression produces residuals; within-group Z-scores identify unusually high or low budgets. Plotly views support exploring flagged cases and their context.</p></section><section id="contribution"><h2>My contribution</h2><p>Contributed the executive summary, problem framing, and final notebook assembly. I helped communicate why a statistical flag should trigger review rather than be treated as a verdict, and connected the analysis to an audit-capacity constraint.</p></section><section id="evidence"><h2>Results & evidence</h2><p>The final notebook reports 123 flagged projects among 15,664 analyzed projects—approximately 0.79%. The output is a short review list with a peer-relative explanation, not a finding that those projects were wasteful.</p></section><section id="context"><h2>Scope & interpretation</h2><p>Exceptional logistics, data-entry problems, or legitimate operating constraints can produce anomalies. A secondary classifier uses labels derived from the outlier rule; its score is not independently validated fraud-detection accuracy. Flagged budget exposure is not realized savings.</p></section></div><aside class="case-takeaway"><p class="eyebrow">What this work taught me</p><p>Give reviewers a manageable list and a defensible reason to look closer.</p></aside><div class="case-materials"><p>Team-method summary and aggregate notebook counts; the source repository remains private.</p></div></article><nav class="case-navigation" aria-label="Other projects"><a href="/projects/">All projects</a><a href="/projects/fraud/">Next: Cost-sensitive insurance fraud detection →</a></nav></main>
+    </div>
+    <footer class="site-footer"><span>© 2026 Daniel (Heedong) Jang</span><span>NLP · LLM evaluation · Applied ML</span></footer>
+  </div></div>
+</body>
+</html>

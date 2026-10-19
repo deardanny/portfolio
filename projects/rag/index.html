@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Research paper Q&amp;A with retrieval — Daniel Jang</title>
+  <meta name="description" content="Exploring a small, inspectable retrieval pipeline for asking questions about papers.">
+  <link rel="canonical" href="https://hdjang.com/projects/rag/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Research paper Q&amp;A with retrieval — Daniel Jang">
+  <meta property="og:description" content="Exploring a small, inspectable retrieval pipeline for asking questions about papers.">
+  <meta property="og:url" content="https://hdjang.com/projects/rag/">
+  <meta property="og:image" content="https://hdjang.com/assets/portrait.jpg">
+  <meta property="og:image:alt" content="Daniel (Heedong) Jang">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/site.css">
+  <script src="/assets/site.js" defer></script>
+  <link rel="stylesheet" href="/assets/projects.css"><script src="/assets/charts.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div id="research-portfolio"><div class="rp-site">
+    <header class="site-header">
+      <a class="wordmark" href="/">Daniel Jang<span class="wordmark-note">Research & practice</span></a>
+      <nav aria-label="Main navigation"><a href="/">About</a><a href="/projects/" aria-current="page">Research & Projects</a><a href="/experience/">Experience</a><a href="/cv/">CV</a></nav>
+    </header>
+    <div class="site-layout">
+      <aside class="profile" aria-label="Profile">
+        <img src="/assets/portrait.jpg" class="portrait" width="640" height="960" alt="Black-and-white portrait of Daniel Jang">
+        <div class="profile-copy"><a class="profile-name" href="/">Daniel Jang</a><p class="given-name">Heedong Jang · 장희동</p><p class="profile-role">Research Assistant<br>MISM · BIDA<br>Carnegie Mellon University</p><p class="profile-location">Pittsburgh, PA</p></div>
+        <div class="profile-links"><a href="mailto:hdjang7@gmail.com">Email <span aria-hidden="true">↗</span></a><a href="https://www.linkedin.com/in/heedongjang/" target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true">↗</span></a><a href="https://github.com/deardanny" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a></div>
+      </aside>
+      <main id="main"><a class="back-link" href="/projects/">← All 13 projects</a><article class="case-study"><p class="eyebrow">Personal project · NLP prototype</p><h1>Research paper Q&amp;A with retrieval</h1><p class="page-intro">Exploring a small, inspectable retrieval pipeline for asking questions about papers.</p><div class="case-labels"><span class="status-badge">Prototype</span><span>LangChain</span><span>Chroma</span><span>OpenAI embeddings</span><span>GPT-4o-mini</span></div><dl class="case-facts"><div><dt>My role</dt><dd>Retrieval and generation pipeline</dd></div><div><dt>Scope</dt><dd>Question answering over an uploaded PDF</dd></div><div><dt>When</dt><dd>2026</dd></div></dl><section class="case-question"><h2>The question</h2><p>How can a question-answering tool use an uploaded paper rather than relying only on a model’s prior knowledge?</p></section><figure class="rp-figure" aria-labelledby="rp-figure-rag"><div class="rp-figure-head"><h2 id="rp-figure-rag">What reaches the language model?</h2><span class="rp-figure-label">RETRIEVAL ARCHITECTURE</span></div><div class="chunk-demo"><div><span>Chunk 1 · 1,000 characters</span><i>200-character overlap</i></div><div><i>Shared text</i><span>Chunk 2 · 1,000 characters</span></div></div><div class="rp-pipeline"><div class="rp-node"><strong>Load & split</strong><span>PDF → overlapping chunks</span></div><div class="rp-node"><strong>Embed & index</strong><span>OpenAI → Chroma</span></div><div class="rp-node"><strong>Retrieve</strong><span>Top 3 chunks per question</span></div><div class="rp-node"><strong>Generate</strong><span>Context → GPT-4o-mini</span></div></div><div class="retrieval-context"><p class="path-label">Context sent with the question</p><div><span>Retrieved passage 1</span><span>Retrieved passage 2</span><span>Retrieved passage 3</span></div><p>“Answer the question based only on the following context.”</p></div><figcaption>Architecture diagram based on the public implementation. Three retrieved passages supply context; this is not a guarantee that an answer is supported or that retrieval found every relevant passage.</figcaption></figure><div class="case-sections"><section id="approach"><h2>Approach</h2><p>PyPDF loads a document and a recursive splitter creates 1,000-character chunks with 200-character overlap. OpenAI embeddings index chunks in Chroma. For each question, the pipeline retrieves the three closest chunks and supplies them as context to GPT-4o-mini through LangChain.</p></section><section id="contribution"><h2>My contribution</h2><p>Implemented the PDF-to-answer pipeline and a command-line interface for interactive questions. The small implementation makes retrieval settings and the context passed to the model straightforward to inspect and change.</p></section><section id="evidence"><h2>Results & evidence</h2><p>The public repository contains the pipeline and an example question. It demonstrates loading, chunking, embedding, retrieval, and generation; it does not include a comparative evaluation of retrieval quality or answer faithfulness.</p></section><section id="context"><h2>Scope & interpretation</h2><p>A prompt asking the model to stay within context does not guarantee factual or complete answers. The next useful extension is an annotated question set, source-page attribution, and separate evaluation of retrieval coverage and answer support.</p></section></div><aside class="case-takeaway"><p class="eyebrow">What this work taught me</p><p>Retrieval supplies evidence. Whether an answer actually uses it remains an evaluation question.</p></aside><div class="case-materials"><a class="button" href="https://github.com/deardanny/paper-rag-pipeline" target="_blank" rel="noopener noreferrer">Explore the public implementation ↗</a><p>Public code and a method diagram; this portfolio does not upload documents to an API.</p></div></article><nav class="case-navigation" aria-label="Other projects"><a href="/projects/">All projects</a><a href="/projects/screening/">Next: LLM-assisted literature screening →</a></nav></main>
+    </div>
+    <footer class="site-footer"><span>© 2026 Daniel (Heedong) Jang</span><span>NLP · LLM evaluation · Applied ML</span></footer>
+  </div></div>
+</body>
+</html>

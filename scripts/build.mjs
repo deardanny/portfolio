@@ -1,20 +1,13 @@
 import { mkdir, writeFile, readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve, join } from 'node:path';
-import { projects, projectVisualHTML } from './projects.mjs';
+import { projects, featuredIds, groups, projectVisualHTML } from './projects.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const origin = 'https://hdjang.com';
 const year = 2026;
 const escape = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const nav = [['about','About','/'],['projects','Research & Projects','/projects/'],['experience','Experience','/experience/'],['cv','CV','/cv/']];
-const evidence = {
-  screening: ['Human–LLM agreement','κ ≈ 0.80'],
-  teaming: ['Ongoing research','Task & experiment design'],
-  risk: ['Human-labeled reviews','95% sentiment accuracy'],
-  basd: ['Privacy-aware analysis','25,000+ comments'],
-  crm: ['Targeting experiment','LightGBM · A/B testing']
-};
 
 function shell({title, description, active, path, body, charts=false}) {
   const documentTitle = title ? `${title} — Daniel Jang` : 'Daniel Jang — NLP, LLMs & Human–AI Research';
@@ -35,6 +28,7 @@ function shell({title, description, active, path, body, charts=false}) {
   <meta property="og:image:alt" content="Daniel (Heedong) Jang">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/site.css">
+  <script src="/assets/site.js" defer></script>
   ${charts?'<link rel="stylesheet" href="/assets/projects.css"><script src="/assets/charts.js" defer></script>':''}
 </head>
 <body>
@@ -60,8 +54,9 @@ function shell({title, description, active, path, body, charts=false}) {
 }
 
 function workRow(p, number, featured=false) {
-  return `<a class="work-row${featured?' work-featured':''}" href="/projects/${p.id}/"><span class="work-number" aria-hidden="true">${String(number).padStart(2,'0')}</span><div class="work-copy"><p class="work-meta">${escape(p.meta)}</p><h3>${escape(p.title)}</h3><p class="work-summary">${escape(p.desc)}</p><span class="work-evidence">${escape(evidence[p.id][1])}<span class="evidence-context"> · ${escape(evidence[p.id][0])}</span></span></div><span class="work-arrow" aria-hidden="true">↗</span></a>`;
+  return `<a class="work-row${featured?' work-featured':''}" href="/projects/${p.id}/" data-project="${p.id}"><span class="work-number" aria-hidden="true">${String(number).padStart(2,'0')}</span><div class="work-copy"><div class="work-topline"><p class="work-meta">${escape(p.meta)}</p><span class="work-status">${escape(p.status)}</span></div><h3>${escape(p.title)}</h3><p class="work-summary">${escape(p.desc)}</p><span class="work-evidence">${escape(p.signal)}<span class="evidence-context"> · ${escape(p.signalContext)}</span></span></div><span class="work-arrow" aria-hidden="true">↗</span></a>`;
 }
+const featured = featuredIds.map(id=>projects.find(p=>p.id===id));
 
 const about = `
   <section class="introduction">
@@ -70,10 +65,10 @@ const about = `
     <p class="intro-copy">I’m a research assistant and master’s student at Carnegie Mellon University, working on LLM evaluation and human–AI collaboration.</p>
     <p class="intro-context">My research builds on industry experience developing NLP systems and customer models at Kimberly-Clark. I’m interested in how language models can support decisions, and how to evaluate them alongside the people who use them.</p>
   </section>
-  <section class="home-research" aria-labelledby="current-research"><div class="section-heading"><h2 id="current-research">Research in progress</h2><span>Carnegie Mellon University</span></div>${projects.slice(0,2).map((p,i)=>workRow(p,i+1,true)).join('')}<a class="text-link all-work" href="/projects/">Explore all research & projects <span aria-hidden="true">→</span></a></section>
-  <section class="practice-note" aria-labelledby="practice-heading"><p class="eyebrow">From practice to research</p><h2 id="practice-heading">Working with real-world language data.</h2><p>At Kimberly-Clark, I connected consumer feedback to product issue monitoring and CRM decisions. At B.A.S.D., I built privacy-aware workflows for teacher evaluation comments. These projects inform the questions I bring to research.</p><div class="inline-links"><a href="/projects/risk/">Product issue monitoring ↗</a><a href="/projects/basd/">Teacher feedback analysis ↗</a></div></section>`;
+  <section class="home-research" aria-labelledby="selected-work"><div class="section-heading"><h2 id="selected-work">Selected research & practice</h2><span>6 projects · Research to real-world decisions</span></div>${featured.map((p,i)=>workRow(p,i+1,true)).join('')}<a class="text-link all-work" href="/projects/">Explore all 13 projects <span aria-hidden="true">→</span></a></section>
+  <section class="practice-note" aria-labelledby="practice-heading"><p class="eyebrow">A common thread</p><h2 id="practice-heading">From model output to a useful decision.</h2><p>Across research and industry, I work on the space between an algorithm and the person using it: defining the question, testing the evidence, and making the result understandable.</p><div class="inline-links"><a href="/experience/">Experience & background ↗</a><a href="/cv/">View CV ↗</a></div></section>`;
 
-const projectIndex = `<p class="eyebrow">Selected work</p><h1>Research & Projects</h1><p class="page-intro">Questions, methods, and evidence from research and industry.</p>${[['Research',projects.slice(0,2),0],['Applied machine learning',projects.slice(2),2]].map(([label,items,offset])=>`<section class="project-group"><div class="section-heading"><h2>${label}</h2></div>${items.map((p,i)=>workRow(p,i+offset+1)).join('')}</section>`).join('')}`;
+const projectIndex = `<p class="eyebrow">13 projects · Research, industry & personal work</p><h1>Research & Projects</h1><p class="page-intro">The questions I work on, the systems I build, and what the evidence can tell us. Open a project for methods, my contribution, and a visual explanation.</p><div class="project-filters" aria-label="Filter projects" hidden><button type="button" data-filter="all" aria-pressed="true">All <span>13</span></button>${groups.map(g=>`<button type="button" data-filter="${g.id}" aria-pressed="false">${g.label} <span>${projects.filter(p=>p.group===g.id).length}</span></button>`).join('')}</div><p class="filter-result" role="status" hidden>Showing all 13 projects</p>${groups.map(g=>`<section class="project-group" data-group="${g.id}" aria-labelledby="group-${g.id}"><div class="section-heading"><h2 id="group-${g.id}">${g.label}</h2><span>${projects.filter(p=>p.group===g.id).length} projects</span></div><p class="group-description">${g.description}</p>${projects.filter(p=>p.group===g.id).map(p=>workRow(p,projects.indexOf(p)+1)).join('')}</section>`).join('')}`;
 
 const roles = [
   {dates:'May 2026 — Present',org:'Carnegie Mellon University',role:'Research Assistant · Human–AI Teaming Lab',text:'Developed an LLM paper-screening classifier and evaluated agreement with human labels. Adapted Overcooked maps, rewards, and LLM prompts for research on coordination and adaptation.',link:'/projects/screening/',label:'Explore the research'},
@@ -85,17 +80,11 @@ const experience = `<p class="eyebrow">Research, industry & teaching</p><h1>Expe
 const cvText=await readFile(join(root,'scripts/cv-text.txt'),'utf8');
 const cv = `<p class="eyebrow">Background & qualifications</p><h1>CV</h1><p class="page-intro">Research and industry experience, education, and technical skills.</p><div class="cv-actions"><a class="button" href="/Daniel_Jang_Resume.pdf" download="Daniel_Jang_Resume.pdf">Download PDF <span aria-hidden="true">↓</span></a><a class="text-link" href="/Daniel_Jang_Resume.pdf" target="_blank" rel="noopener">Open PDF ↗</a><span class="secondary">Résumé · 1 page</span></div><a class="cv-page" href="/Daniel_Jang_Resume.pdf" target="_blank" rel="noopener" aria-label="Open Daniel Jang’s résumé as a PDF"><img src="/assets/cv-preview.png" width="1020" height="1320" alt="Preview of Daniel Jang’s résumé. The full text is available below."></a><details class="cv-text"><summary>Read as text</summary><div>${escape(cvText)}</div></details>`;
 
-const statuses = {
-  screening:'A second layer of screening supports human review. Low-confidence LLM decisions are routed to reviewers.',
-  teaming:'Ongoing experimental preparation. Participant-study results are not yet available.',
-  risk:'Issue identification and notification to manufacturing decreased from approximately 90 days to 3 days.',
-  basd:'Completed summer internship. This case study summarizes the methods and aggregate findings.',
-  crm:'The 42% relative CTR increase applies to the best-performing model-targeted segment within the approximately 14,000-user experiment.'
-};
 const visualFallbacks={risk:'Sentiment accuracy: vendor system 60%; RoBERTa 80%; GPT-4o 95%.',crm:'CTR index for the best-performing segment: random targeting 100; model targeting 142.'};
 function detail(p) {
-  const sections=[['Research question',p.question],['Approach',p.approach],['My contribution',p.contribution],['Evaluation & evidence',p.id==='teaming'?'Implemented task and environment modifications to support a planned study of role coordination and strategy adaptation.':p.evidence],['Project context',statuses[p.id]]];
-  return `<a class="back-link" href="/projects/">← Research & Projects</a><article class="case-study"><p class="eyebrow">${escape(p.meta)}</p><h1>${escape(p.title)}</h1><p class="page-intro">${escape(p.desc)}</p>${projectVisualHTML(p)}${visualFallbacks[p.id]?`<noscript><p>${visualFallbacks[p.id]}</p></noscript>`:''}<div class="case-sections">${sections.map(([label,text])=>`<section><h2>${label}</h2><p>${escape(text)}</p></section>`).join('')}</div>${p.url?`<a class="button case-code" href="${p.url}" target="_blank" rel="noopener noreferrer">${p.link} ↗</a>`:''}</article><nav class="case-navigation" aria-label="Other projects"><a href="/projects/">All projects</a>${projects.indexOf(p)<projects.length-1?`<a href="/projects/${projects[projects.indexOf(p)+1].id}/">Next project →</a>`:''}</nav>`;
+  const sections=[['approach','Approach',p.approach],['contribution','My contribution',p.contribution],['evidence','Results & evidence',p.evidence],['context','Scope & interpretation',p.context]];
+  const next=projects[(projects.indexOf(p)+1)%projects.length];
+  return `<a class="back-link" href="/projects/">← All 13 projects</a><article class="case-study"><p class="eyebrow">${escape(p.meta)}</p><h1>${escape(p.title)}</h1><p class="page-intro">${escape(p.desc)}</p><div class="case-labels"><span class="status-badge">${escape(p.status)}</span>${p.tags.map(t=>`<span>${escape(t)}</span>`).join('')}</div><dl class="case-facts"><div><dt>My role</dt><dd>${escape(p.role)}</dd></div><div><dt>Scope</dt><dd>${escape(p.scope)}</dd></div><div><dt>When</dt><dd>${escape(p.period)}</dd></div></dl><section class="case-question"><h2>The question</h2><p>${escape(p.question)}</p></section>${projectVisualHTML(p)}${visualFallbacks[p.id]?`<noscript><p>${visualFallbacks[p.id]}</p></noscript>`:''}<div class="case-sections">${sections.map(([id,label,text])=>`<section id="${id}"><h2>${label}</h2><p>${escape(text)}</p></section>`).join('')}</div><aside class="case-takeaway"><p class="eyebrow">What this work taught me</p><p>${escape(p.takeaway)}</p></aside><div class="case-materials">${p.url?`<a class="button" href="${p.url}" target="_blank" rel="noopener noreferrer">${p.link} ↗</a>`:''}<p>${escape(p.materials)}</p></div></article><nav class="case-navigation" aria-label="Other projects"><a href="/projects/">All projects</a><a href="/projects/${next.id}/">Next: ${escape(next.title)} →</a></nav>`;
 }
 
 const pages=[
