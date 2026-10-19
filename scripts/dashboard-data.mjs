@@ -60,7 +60,11 @@ export function makeDemoData() {
           else if(topic==='Build quality'){text=['The latch cracked during normal use. I stopped using the attachment and asked for a replacement.','A crack appeared on the dust-bin latch, so I contacted support before using it again.','The attachment latch cracked. I set that part aside and requested a replacement.'][Math.floor(i/3)%3];keyword='cracked latch';}
           else {text='A charging interruption made me check the replacement-battery options before using it again.';keyword='charging interruption';}
         }
-        records.push({id:`${source==='review'?'R':'P'}-${brand.id.toUpperCase()}-${w+1}-${String(i+1).padStart(3,'0')}`,brand:brand.id,source,week:w,date:date.toISOString().slice(0,10),topic,sentiment,flagged,keyword,text,product:`Series ${b+1}`,views:source==='community'?60+((i*113+b*79+w*211)%1900):null});
+        const model=(i+b+w)%3;
+        const product=`${brand.id.toUpperCase()}${model+1} · ${['Compact','Plus','Pet'][model]}`;
+        const channel=(source==='review'?['Retail marketplace','Brand store','Specialist retailer']:['Community forum','Social feed','Product discussion'])[(i*7+b+w)%3];
+        const rating=source==='review'?(sentiment==='positive'?4+i%2:sentiment==='neutral'?3:1+i%2):null;
+        records.push({id:`${source==='review'?'R':'P'}-${brand.id.toUpperCase()}-${w+1}-${String(i+1).padStart(3,'0')}`,brand:brand.id,source,week:w,date:date.toISOString().slice(0,10),topic,sentiment,flagged,keyword,text,product,channel,rating,views:source==='community'?60+((i*113+b*79+w*211)%1900):null});
       }
     }
   }));

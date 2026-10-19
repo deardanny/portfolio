@@ -157,4 +157,12 @@
 .preview-bottom span { font-size:9px; color:var(--rp-muted); }
 .preview-bottom strong { font-size:11px; font-weight:500; color:var(--rp-link); }
 .dashboard-preview-note { font-size:11px; color:var(--rp-muted); margin-top:12px; }
+.preview-analytics-chart { display:block; width:100%; height:auto; }
+.preview-analytics-chart path { fill:none; stroke:var(--rp-line); stroke-dasharray:3 3; }
+.preview-analytics-chart text { fill:var(--rp-muted); font:9px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; }
+.preview-brand { margin:13px 0; }
+.preview-brand>span { display:flex; justify-content:space-between; font-size:10px; margin-bottom:7px; }
+.preview-brand small { font-size:9px; color:var(--rp-muted); }
+.preview-brand>i { display:flex; height:9px; border-radius:2px; overflow:hidden; }
+.preview-brand b { display:block; height:100%; }
 @media(max-width:650px) { .preview-columns { grid-template-columns:minmax(0,1fr); gap:15px; padding:16px; } .preview-metrics { padding:16px; } .preview-metrics>div { padding-left:10px; } .preview-metrics strong { font-size:23px; } .preview-metrics span { font-size:9px; } .preview-top,.preview-bottom { padding:14px 16px; } .preview-brief strong br { display:none; } }

@@ -10,7 +10,7 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const origin = 'https://hdjang.com';
 const year = 2026;
 const assetVersions = Object.fromEntries(await Promise.all(
-  ['assets/site.css','assets/projects.css','assets/site.js','assets/charts.js','assets/favicon.svg','assets/dashboard.css','assets/dashboard.js','assets/outputs.css'].map(async path =>
+  ['assets/site.css','assets/projects.css','assets/site.js','assets/charts.js','assets/favicon.svg','assets/dashboard.css','assets/dashboard.js','assets/dashboard-model.mjs','assets/outputs.css'].map(async path =>
     [path, createHash('sha256').update(await readFile(join(root, path))).digest('hex').slice(0,12)]
   )
 ));
