@@ -7,6 +7,7 @@ Personal portfolio at [hdjang.com](https://hdjang.com), published with GitHub Pa
 - Update page content in `scripts/build.mjs`, project copy and the six featured IDs in `scripts/projects.mjs`, and project figures in `scripts/visuals.mjs`.
 - Update the shared appearance in `assets/site.css` and project figures in `assets/projects.css`.
 - `assets/site.js` handles the project filters and figure selectors. `assets/charts.js` draws the responsive result charts.
+- The build adds content versions to CSS and JavaScript URLs so returning visitors receive updated styling and interactions after deployment.
 - The portrait is `assets/portrait.jpg`. The résumé download is `Daniel_Jang_Resume.pdf`; its image preview and text transcript are stored separately.
 
 Build the static pages with Node.js 22 or later:
