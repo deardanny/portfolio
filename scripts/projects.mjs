@@ -74,9 +74,10 @@ export const projects = [
     context:'Issue identification and notification to manufacturing shortened from approximately 90 days to 3 days. This describes detection and handoff, not full issue resolution. Sentiment accuracy is not the recall of every product-risk keyword.',
     takeaway:'The value of text classification comes from getting a useful signal to the person who can act on it.',
     resources:[
+      {label:'Dashboard demo',url:'/projects/risk/dashboard/'},
       {label:'GitHub',url:'https://github.com/deardanny/nlp-risk-dashboard'},
       {label:'Example notebook',url:'https://github.com/deardanny/nlp-risk-dashboard/blob/main/brand-classification_en.ipynb'}
-    ],materials:'Sanitized methodology notebooks are public; company source data is excluded. The example notebook covers brand classification within the wider platform.'
+    ],materials:'The interactive dashboard is an original portfolio demo with fictional brands, records, and figures. It illustrates the workflow rather than reproducing company screens or results. Sanitized methodology notebooks are public; the example notebook covers brand classification within the wider platform.'
   },
   {
     id:'basd',group:'applied',title:'Privacy-aware teacher feedback analysis',meta:'Butler Area School District · Internship',

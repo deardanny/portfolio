@@ -3,12 +3,13 @@ import { fileURLToPath } from 'node:url';
 import { dirname, resolve, join } from 'node:path';
 import { createHash } from 'node:crypto';
 import { projects, featuredIds, groups, projectVisualHTML } from './projects.mjs';
+import { dashboardPageHTML, dashboardPreviewHTML } from './dashboard.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const origin = 'https://hdjang.com';
 const year = 2026;
 const assetVersions = Object.fromEntries(await Promise.all(
-  ['assets/site.css','assets/projects.css','assets/site.js','assets/charts.js','assets/favicon.svg'].map(async path =>
+  ['assets/site.css','assets/projects.css','assets/site.js','assets/charts.js','assets/favicon.svg','assets/dashboard.css','assets/dashboard.js'].map(async path =>
     [path, createHash('sha256').update(await readFile(join(root, path))).digest('hex').slice(0,12)]
   )
 ));
@@ -94,7 +95,7 @@ const visualFallbacks={risk:'Sentiment accuracy: vendor system 60%; RoBERTa 80%;
 function detail(p) {
   const sections=[['approach','Approach',p.approach],['contribution','My contribution',p.contribution],['evidence','Results & evidence',p.evidence],['context','Scope & interpretation',p.context]];
   const next=projects[(projects.indexOf(p)+1)%projects.length];
-  return `<a class="back-link" href="/projects/">← All 13 projects</a><article class="case-study"><p class="eyebrow">${escape(p.meta)}</p><h1>${escape(p.title)}</h1><p class="page-intro">${escape(p.desc)}</p>${p.resources?.length?`<nav class="case-resources" aria-label="Project resources">${resourceLinks(p,'button')}</nav>`:`<p class="case-resource-status resource-status">${escape(p.resourceStatus)}</p>`}<div class="case-labels"><span class="status-badge">${escape(p.status)}</span>${p.tags.map(t=>`<span>${escape(t)}</span>`).join('')}</div><dl class="case-facts"><div><dt>My role</dt><dd>${escape(p.role)}</dd></div><div><dt>Scope</dt><dd>${escape(p.scope)}</dd></div><div><dt>When</dt><dd>${escape(p.period)}</dd></div></dl><section class="case-question"><h2>The question</h2><p>${escape(p.question)}</p></section>${projectVisualHTML(p)}${visualFallbacks[p.id]?`<noscript><p>${visualFallbacks[p.id]}</p></noscript>`:''}<div class="case-sections">${sections.map(([id,label,text])=>`<section id="${id}"><h2>${label}</h2><p>${escape(text)}</p></section>`).join('')}</div><aside class="case-takeaway"><p class="eyebrow">What this work taught me</p><p>${escape(p.takeaway)}</p></aside><section class="case-materials" aria-label="Project materials"><h2>Project materials</h2><p>${escape(p.materials)}</p></section></article><nav class="case-navigation" aria-label="Other projects"><a href="/projects/">All projects</a><a href="/projects/${next.id}/">Next: ${escape(next.title)} →</a></nav>`;
+  return `<a class="back-link" href="/projects/">← All 13 projects</a><article class="case-study"><p class="eyebrow">${escape(p.meta)}</p><h1>${escape(p.title)}</h1><p class="page-intro">${escape(p.desc)}</p>${p.resources?.length?`<nav class="case-resources" aria-label="Project resources">${resourceLinks(p,'button')}</nav>`:`<p class="case-resource-status resource-status">${escape(p.resourceStatus)}</p>`}<div class="case-labels"><span class="status-badge">${escape(p.status)}</span>${p.tags.map(t=>`<span>${escape(t)}</span>`).join('')}</div><dl class="case-facts"><div><dt>My role</dt><dd>${escape(p.role)}</dd></div><div><dt>Scope</dt><dd>${escape(p.scope)}</dd></div><div><dt>When</dt><dd>${escape(p.period)}</dd></div></dl><section class="case-question"><h2>The question</h2><p>${escape(p.question)}</p></section>${p.id==='risk'?dashboardPreviewHTML():''}${projectVisualHTML(p)}${visualFallbacks[p.id]?`<noscript><p>${visualFallbacks[p.id]}</p></noscript>`:''}<div class="case-sections">${sections.map(([id,label,text])=>`<section id="${id}"><h2>${label}</h2><p>${escape(text)}</p></section>`).join('')}</div><aside class="case-takeaway"><p class="eyebrow">What this work taught me</p><p>${escape(p.takeaway)}</p></aside><section class="case-materials" aria-label="Project materials"><h2>Project materials</h2><p>${escape(p.materials)}</p></section></article><nav class="case-navigation" aria-label="Other projects"><a href="/projects/">All projects</a><a href="/projects/${next.id}/">Next: ${escape(next.title)} →</a></nav>`;
 }
 
 const pages=[
@@ -102,9 +103,10 @@ const pages=[
   {path:'/projects/',file:'projects/index.html',title:'Research & Projects',active:'projects',description:'Selected research and applied machine learning projects by Daniel Jang, with methods, evaluation, and visual explanations.',body:projectIndex},
   {path:'/experience/',file:'experience/index.html',title:'Experience',active:'experience',description:'Research, industry, teaching, and education: Carnegie Mellon University, Butler Area School District, and Kimberly-Clark.',body:experience},
   {path:'/cv/',file:'cv/index.html',title:'CV',active:'cv',description:'Read and download Daniel Jang’s résumé, including research and industry experience, education, and technical skills.',body:cv},
-  ...projects.map(p=>({path:`/projects/${p.id}/`,file:`projects/${p.id}/index.html`,title:p.title,active:'projects',description:p.desc,body:detail(p),charts:true}))
+  ...projects.map(p=>({path:`/projects/${p.id}/`,file:`projects/${p.id}/index.html`,title:p.title,active:'projects',description:p.desc,body:detail(p),charts:true})),
+  {path:'/projects/risk/dashboard/',file:'projects/risk/dashboard/index.html',customHTML:dashboardPageHTML(asset)}
 ];
-for(const page of pages){await mkdir(dirname(join(root,page.file)),{recursive:true});await writeFile(join(root,page.file),shell(page).replace(/[ \t]+$/gm,''));}
+for(const page of pages){await mkdir(dirname(join(root,page.file)),{recursive:true});await writeFile(join(root,page.file),(page.customHTML||shell(page)).replace(/[ \t]+$/gm,''));}
 await writeFile(join(root,'404.html'),shell({title:'Page not found',description:'Return to Daniel Jang’s portfolio.',active:'',path:'/404.html',body:'<p class="eyebrow">404</p><h1>This page has moved.</h1><p class="page-intro">Explore my research and projects, or return to the homepage.</p><a class="button" href="/">Back to About →</a>'}));
 await writeFile(join(root,'sitemap.xml'),'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+pages.map(p=>`  <url><loc>${origin}${p.path}</loc></url>`).join('\n')+'\n</urlset>\n');
 console.log(`Built ${pages.length} pages and the 404 page.`);

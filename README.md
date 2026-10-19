@@ -10,6 +10,7 @@ Personal portfolio at [hdjang.com](https://hdjang.com), published with GitHub Pa
 - `assets/site.js` handles the project filters and figure selectors. `assets/charts.js` draws the responsive result charts.
 - The build adds content versions to CSS and JavaScript URLs so returning visitors receive updated styling and interactions after deployment.
 - The portrait is `assets/portrait.jpg`. The résumé download is `Daniel_Jang_Resume.pdf`; its image preview and text transcript are stored separately.
+- The consumer-insights demo lives at `/projects/risk/dashboard/`. `scripts/dashboard-data.mjs` creates entirely fictional fixtures, `scripts/dashboard.mjs` builds the page and case-study preview, and `assets/dashboard.js`/`assets/dashboard.css` provide the interactions and styling. Summary previews use deterministic templates, not a live AI service. Never put company manuals, screenshots, original text, or source data in these files.
 
 Build the static pages with Node.js 22 or later:
 
