@@ -5,6 +5,7 @@ Personal portfolio at [hdjang.com](https://hdjang.com), published with GitHub Pa
 ## Editing
 
 - Update page content in `scripts/build.mjs`, project copy and the six featured IDs in `scripts/projects.mjs`, and project figures in `scripts/visuals.mjs`.
+- Add verified public links through each project's `resources` array. Projects without public resources use `resourceStatus` to explain availability. Links appear on the homepage/index and at the top of the case study; do not link private repositories or restricted Drive files.
 - Update the shared appearance in `assets/site.css` and project figures in `assets/projects.css`.
 - `assets/site.js` handles the project filters and figure selectors. `assets/charts.js` draws the responsive result charts.
 - The build adds content versions to CSS and JavaScript URLs so returning visitors receive updated styling and interactions after deployment.

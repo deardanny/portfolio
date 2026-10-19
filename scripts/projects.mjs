@@ -8,6 +8,7 @@ export const groups = [
 export const projects = [
   {
     id:'screening',group:'research',title:'LLM-assisted literature screening',meta:'Carnegie Mellon University · Research',
+    resourceStatus:'Research materials not public',
     status:'Research workflow',period:'2026',role:'Classifier development & evaluation',scope:'Systematic literature review',
     tags:['LLM evaluation','Human–AI agreement','Python'],signal:'κ ≈ 0.80',signalContext:'Agreement with human labels',
     desc:'Building a measurable second layer of review for research-paper screening.',
@@ -21,6 +22,7 @@ export const projects = [
   },
   {
     id:'teaming',group:'research',title:'Human–AI collaboration in Overcooked',meta:'Carnegie Mellon University · Research',
+    resourceStatus:'Research code not public',
     status:'Ongoing research',period:'2026 — present',role:'Task design, environment changes & prompting',scope:'Collaborative game experiment',
     tags:['Human–AI teaming','Experiment design','LLM prompting'],signal:'Coordination & adaptation',signalContext:'Experimental task design',
     desc:'Designing shared tasks that make coordination with an AI teammate observable.',
@@ -34,6 +36,7 @@ export const projects = [
   },
   {
     id:'tui',group:'research',title:'Normalizing hotel room descriptions',meta:'TUI Group × Carnegie Mellon University · Capstone',
+    resourceStatus:'Client materials not public',
     status:'In progress',period:'Fall 2026',role:'ML contributor · team capstone',scope:'Text-to-catalog matching',
     tags:['NLP','Entity normalization','Retrieval','Data quality'],signal:'Free text → standard catalog',signalContext:'Industry capstone',
     desc:'Turning inconsistent supplier language into explainable room-type matches.',
@@ -47,6 +50,7 @@ export const projects = [
   },
   {
     id:'synthetic',group:'research',title:'Human vs. LLM survey responses',meta:'Carnegie Mellon University · A/B testing study',
+    resourceStatus:'Course materials not public',
     status:'Exploratory study',period:'Spring 2026',role:'Treatment-effect analysis & limitations',scope:'38 human + 1,100 synthetic responses',
     tags:['Synthetic data','A/B testing','OLS','Evaluation'],signal:'38 human · 1,100 synthetic',signalContext:'Separate estimates by source',
     desc:'Examining what changes when synthetic respondents dominate an experiment.',
@@ -69,10 +73,14 @@ export const projects = [
     evidence:'Sentiment classification achieved 95% accuracy on human-labeled reviews, compared with 80% for RoBERTa and 60% for the vendor system. The workflow covered 100+ products and 20,000+ daily reviews and posts, with approximately 90% lower annual platform costs.',
     context:'Issue identification and notification to manufacturing shortened from approximately 90 days to 3 days. This describes detection and handoff, not full issue resolution. Sentiment accuracy is not the recall of every product-risk keyword.',
     takeaway:'The value of text classification comes from getting a useful signal to the person who can act on it.',
-    url:'https://github.com/deardanny/nlp-risk-dashboard',link:'Explore public notebooks',materials:'Sanitized methodology notebooks are public; company source data is excluded.'
+    resources:[
+      {label:'GitHub',url:'https://github.com/deardanny/nlp-risk-dashboard'},
+      {label:'Example notebook',url:'https://github.com/deardanny/nlp-risk-dashboard/blob/main/brand-classification_en.ipynb'}
+    ],materials:'Sanitized methodology notebooks are public; company source data is excluded. The example notebook covers brand classification within the wider platform.'
   },
   {
     id:'basd',group:'applied',title:'Privacy-aware teacher feedback analysis',meta:'Butler Area School District · Internship',
+    resourceStatus:'District materials not public',
     status:'Completed internship',period:'Summer 2026',role:'Data pipeline, NLP & dashboard development',scope:'50,000+ records · 25,000+ comments',
     tags:['Python','spaCy','Claude','Power BI'],signal:'25,000+ qualitative comments',signalContext:'Privacy-aware analysis',
     desc:'Making district-wide evaluation patterns visible while limiting identity exposure.',
@@ -95,10 +103,14 @@ export const projects = [
     evidence:'The best-performing model-targeted segment achieved 42% higher click-through rate than its randomly targeted comparison group. Both groups received coupons, making the comparison about audience selection rather than whether an offer was sent.',
     context:'The 42% increase is relative and applies to the strongest segment, not the average across all participants. The visualization indexes the comparison group to 100; it does not imply an absolute CTR of 100% or 142%.',
     takeaway:'An audience model earns its place through the decisions and experiments it supports, not a training metric alone.',
-    url:'https://github.com/deardanny/churn-prediction',link:'Explore related public code',materials:'Related modeling code is public; customer and campaign-level records are excluded.'
+    resources:[
+      {label:'GitHub',url:'https://github.com/deardanny/churn-prediction'},
+      {label:'Modeling code',url:'https://github.com/deardanny/churn-prediction/blob/main/churn_prediction.py'}
+    ],materials:'Related modeling code is public; customer and campaign-level records are excluded.'
   },
   {
     id:'power',group:'applied',title:'Power outage forecasting & generator allocation',meta:'Carnegie Mellon University · Team project',
+    resourceStatus:'Course materials not public',
     status:'Completed course project',period:'Spring 2026',role:'Forecasting implementation & analysis',scope:'83 Michigan counties · 24h / 48h horizons',
     tags:['PyTorch','Seq2Seq LSTM','SARIMAX','XGBoost'],signal:'Forecast → deployment decision',signalContext:'Five mobile generators',
     desc:'Connecting weather-driven outage forecasts to the placement of limited backup power.',
@@ -121,10 +133,14 @@ export const projects = [
     evidence:'The public notebook documents the methodology, including six topics per complaint category and highest-probability topic assignment. This is a distinct analysis of support tickets, complementing the review and social-post monitoring platform.',
     context:'Topic labels require interpretation and are not ground-truth classes. Phone-ticket summaries may omit useful detail. Public notebook outputs were cleared to protect company data; the illustrated example is synthetic and contains no measured topic frequencies.',
     takeaway:'Useful topics depend as much on text collection and category structure as on the model.',
-    url:'https://github.com/deardanny/voc-topic-modeling',link:'Explore the public notebook',materials:'Methodology notebook with company outputs removed; synthetic text example shown here.'
+    resources:[
+      {label:'GitHub',url:'https://github.com/deardanny/voc-topic-modeling'},
+      {label:'Topic notebook',url:'https://github.com/deardanny/voc-topic-modeling/blob/main/voc-lda-topic-modeling.ipynb'}
+    ],materials:'Methodology notebook with company outputs removed; synthetic text example shown here.'
   },
   {
     id:'humanitarian',group:'applied',title:'Humanitarian Efficiency Radar',meta:'CMU Data Science Club Datathon · Team project',
+    resourceStatus:'Repository not public',
     status:'Completed datathon',period:'January 2026',role:'Problem framing, communication & notebook assembly',scope:'UN pooled-fund project budgets',
     tags:['Regression','Anomaly detection','Plotly','Databricks'],signal:'123 projects flagged for review',signalContext:'15,664 projects analyzed',
     desc:'Making humanitarian budget anomalies explainable and practical to review.',
@@ -138,6 +154,7 @@ export const projects = [
   },
   {
     id:'fraud',group:'applied',title:'Cost-sensitive insurance fraud detection',meta:'Carnegie Mellon University · Two-person team project',
+    resourceStatus:'Course materials not public',
     status:'Exploratory model study',period:'Spring 2026',role:'Model evaluation & cost-based analysis',scope:'15,420 claims · Class imbalance',
     tags:['XGBoost','Model evaluation','Data leakage','Decision costs'],signal:'Leakage diagnosis & decision costs',signalContext:'Insurance claim triage',
     desc:'Examining what changes when fraud models are judged by errors and their costs.',
@@ -151,6 +168,7 @@ export const projects = [
   },
   {
     id:'job-radar',group:'systems',title:'Job Radar: evidence-aware job discovery',meta:'Personal project · Automation',
+    resourceStatus:'Repository not public',
     status:'Working personal tool',period:'2026',role:'Workflow design, integration & iteration',scope:'Multiple hiring sources · Five résumé variants',
     tags:['Python','TF-IDF','API integration','Automation'],signal:'Collect · verify · match · report',signalContext:'Personal discovery workflow',
     desc:'Building a repeatable discovery workflow that makes its recommendation criteria visible.',
@@ -173,6 +191,9 @@ export const projects = [
     evidence:'The public repository contains the pipeline and an example question. It demonstrates loading, chunking, embedding, retrieval, and generation; it does not include a comparative evaluation of retrieval quality or answer faithfulness.',
     context:'A prompt asking the model to stay within context does not guarantee factual or complete answers. The next useful extension is an annotated question set, source-page attribution, and separate evaluation of retrieval coverage and answer support.',
     takeaway:'Retrieval supplies evidence. Whether an answer actually uses it remains an evaluation question.',
-    url:'https://github.com/deardanny/paper-rag-pipeline',link:'Explore the public implementation',materials:'Public code and a method diagram; this portfolio does not upload documents to an API.'
+    resources:[
+      {label:'GitHub',url:'https://github.com/deardanny/paper-rag-pipeline'},
+      {label:'Pipeline code',url:'https://github.com/deardanny/paper-rag-pipeline/blob/main/app.py'}
+    ],materials:'Public code and a method diagram; this portfolio does not upload documents to an API.'
   }
 ];

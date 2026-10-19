@@ -65,6 +65,14 @@ h3 { font-size:16px; font-weight:500; line-height:1.5; }
 .evidence-context { color:var(--rp-muted); }
 .work-arrow { color:var(--rp-link); padding-top:20px; }
 .work-featured { padding:23px 0; }
+.work-entry { border-bottom:1px solid var(--rp-line); padding-bottom:18px; }
+.work-entry .work-row { border-bottom:0; padding-bottom:10px; }
+.work-links { display:flex; align-items:center; flex-wrap:wrap; gap:4px 22px; margin-left:42px; font-size:11px; }
+.work-links a { display:inline-flex; align-items:center; gap:6px; min-height:32px; text-decoration:none; }
+.work-links a:hover { text-decoration:underline; }
+.resource-status { color:var(--rp-muted); font-size:11px; }
+.case-resources { display:flex; flex-wrap:wrap; gap:12px; margin-top:22px; }
+.case-resource-status { margin-top:18px; }
 .text-link { font-size:13px; }
 .all-work { display:inline-block; margin-top:18px; }
 .practice-note { margin-top:43px; padding:23px 25px; background:var(--rp-hover); border-left:2px solid var(--rp-link); }
@@ -133,11 +141,12 @@ h3 { font-size:16px; font-weight:500; line-height:1.5; }
   .home-research { margin-top:32px; }
   .work-row { grid-template-columns:20px minmax(0,1fr) 14px; gap:9px; }
   .work-row h3 { font-size:15px; }
+  .work-links { margin-left:29px; gap:3px 18px; }
   .evidence-context { display:block; margin-top:2px; }
   .practice-note { padding:20px; }
   .site-footer { margin-top:35px; }
 }
-@media(pointer:coarse) { .site-header nav a,.profile-links a,.text-link,.back-link,.button,.cv-text summary { min-height:44px; display:inline-flex; align-items:center; } }
+@media(pointer:coarse) { .site-header nav a,.profile-links a,.text-link,.back-link,.button,.cv-text summary,.work-links a { min-height:44px; display:inline-flex; align-items:center; } }
 @media(prefers-reduced-motion:no-preference) { a { transition:color .15s ease, background-color .15s ease; } }
 
 /* Project collection and detailed case studies. */
@@ -164,6 +173,7 @@ h3 { font-size:16px; font-weight:500; line-height:1.5; }
 .case-takeaway .eyebrow { margin-bottom:7px; font-size:10px; }
 .case-takeaway>p:last-child { font-size:14px; }
 .case-materials { margin-top:26px; }
+.case-materials h2 { font-size:13px; }
 .case-materials p { font-size:11px; color:var(--rp-muted); margin-top:12px; }
 .case-navigation a:last-child { max-width:65%; text-align:right; }
 @media(max-width:650px) {
