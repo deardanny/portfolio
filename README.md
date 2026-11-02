@@ -1,8 +1,14 @@
 # Daniel Jang — Research & Applied ML
 
-Personal portfolio at [hdjang.com](https://hdjang.com), published with GitHub Pages from `main`.
+Personal portfolio at [hdjang.com](https://hdjang.com), hosted on Cloudflare Workers.
 
-## Editing
+## Live site and repository snapshot
+
+This repository contains an earlier version of the portfolio. The live site has newer project content and dashboard interfaces; visit [hdjang.com](https://hdjang.com) for the current portfolio.
+
+Production updates are uploaded separately to Cloudflare. Commits to this repository do not automatically deploy to `hdjang.com`.
+
+## Editing this repository snapshot
 
 - Update page content in `scripts/build.mjs`, project copy and the six featured IDs in `scripts/projects.mjs`, and project figures in `scripts/visuals.mjs`.
 - Add verified public links through each project's `resources` array. Projects without public resources use `resourceStatus` to explain availability. Links appear on the homepage/index and at the top of the case study; do not link private repositories or restricted Drive files.
@@ -26,6 +32,6 @@ Preview from the repository root:
 python3 -m http.server 8000
 ```
 
-The homepage features six projects; the full index contains thirteen case studies across research, applied machine learning, and systems. Each case study includes a visual, the author's contribution, results, and scope. Figures distinguish measured results, assumptions, and illustrative examples.
+This repository snapshot features six projects on the homepage and thirteen case studies in the full index, across research, applied machine learning, and systems. Each case study includes a visual, the author's contribution, results, and scope. Figures distinguish measured results, assumptions, and illustrative examples.
 
 Commit both source and generated pages. Pages use ordinary HTML and real links. All projects remain accessible without JavaScript; interactive figures display their first panel, and the two result charts have text fallbacks. Validation checks project counts, required case-study sections, figure captions, internal links, local assets, and sitemap coverage. Before publishing, also check category filters, selector interactions, and desktop/mobile layouts in a browser.
