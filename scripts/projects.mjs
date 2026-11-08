@@ -80,7 +80,7 @@ export const projects = [
     ],materials:'The interactive dashboard is an original portfolio demo with fictional brands, records, and figures. It illustrates the workflow rather than reproducing company screens or results. Sanitized methodology notebooks are public; the example notebook covers brand classification within the wider platform.'
   },
   {
-    id:'education',group:'applied',title:'Privacy-aware teacher feedback analysis',meta:'Public School District (Confidential) · Internship',
+    id:'education',group:'applied',title:'Privacy-aware teacher feedback analysis',meta:'Company A [Confidential] · Internship',
     resourceStatus:'District materials not public',
     status:'Completed internship',period:'Summer 2026',role:'Data pipeline, NLP & dashboard development',scope:'50,000+ records · 25,000+ comments',
     tags:['Python','spaCy','Claude','Power BI'],signal:'25,000+ qualitative comments',signalContext:'Privacy-aware analysis',
