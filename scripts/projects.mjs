@@ -1,5 +1,5 @@
 export { projectVisualHTML } from './visuals.mjs';
-export const featuredIds = ['screening','teaming','hospitality','risk','education','power'];
+export const featuredIds = ['screening','teaming','tui','risk','education','power'];
 export const groups = [
   {id:'research',label:'Research & evaluation',description:'Language models, human decisions, and the evidence between them.'},
   {id:'applied',label:'Applied machine learning',description:'From language and predictive models to decisions people can use.'},
@@ -35,7 +35,7 @@ export const projects = [
     materials:'Experiment-design schematic; participant records and private research code are not included.'
   },
   {
-    id:'hospitality',group:'research',title:'Normalizing hotel room descriptions',meta:'Travel & Hospitality Partner (Confidential) × Carnegie Mellon University · Capstone',
+    id:'tui',group:'research',title:'Normalizing hotel room descriptions',meta:'TUI Group × Carnegie Mellon University · Capstone',
     resourceStatus:'Client materials not public',
     status:'In progress',period:'Fall 2026',role:'ML contributor · team capstone',scope:'Text-to-catalog matching',
     tags:['NLP','Entity normalization','Retrieval','Data quality'],signal:'Free text → standard catalog',signalContext:'Industry capstone',

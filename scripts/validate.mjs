@@ -7,8 +7,8 @@ import { outputSpecs, claimFixtures, claimOutcome } from './outputs.mjs';
 import { initialState, filterRecords, summarize, sortRecords, toCSV } from '../assets/dashboard-model.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const projectIds = ['screening','teaming','hospitality','synthetic','risk','education','crm','power','voc','humanitarian','fraud','job-radar','rag'];
-const featuredIds = ['screening','teaming','hospitality','risk','education','power'];
+const projectIds = ['screening','teaming','tui','synthetic','risk','education','crm','power','voc','humanitarian','fraud','job-radar','rag'];
+const featuredIds = ['screening','teaming','tui','risk','education','power'];
 const read = file => readFile(join(root, file), 'utf8');
 const projectLinks = html => [...html.matchAll(/data-project="([^"]+)"/g)].map(m => m[1]);
 const home = await read('index.html');

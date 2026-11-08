@@ -32,13 +32,13 @@ function teaming() {
   })));
 }
 
-function hospitality() {
+function tui() {
   const cases = [
     {name:'Clear attributes',input:'Twin room, sea view, balcony',tokens:['Twin beds','Sea view','Balcony'],decision:'Candidate for review',reason:'The description supports all three attributes in the illustrative catalog entry.',matches:[['Twin · Sea view · Balcony','3 of 3 attributes'],['Double · Sea view · Balcony','Bed type conflicts'],['Twin · Garden view','View conflicts']]},
     {name:'Missing room detail',input:'Comfort room with a view',tokens:['Room type unclear','View unspecified','Bed type missing'],decision:'Leave unmapped',reason:'A view is mentioned, but neither the bed configuration nor the view category can be established.',matches:[['Twin · Sea view','Insufficient evidence'],['Double · Garden view','Insufficient evidence'],['Family · Courtyard view','Insufficient evidence']]},
     {name:'Conflicting description',input:'Double room — two single beds, garden outlook',tokens:['Double / twin conflict','Garden view','No balcony evidence'],decision:'Manual review',reason:'The room label and bed description disagree. Preserve the conflict instead of silently choosing one.',matches:[['Twin · Garden view','Bed count supports'],['Double · Garden view','Room label supports'],['Twin · Garden · Balcony','Balcony unsupported']]}
   ];
-  return panels('hospitality','Try an invented supplier description',cases.map(c=>({name:c.name,body:
+  return panels('tui','Try an invented supplier description',cases.map(c=>({name:c.name,body:
     `${label('Supplier text')}<blockquote class="output-quote">${c.input}</blockquote><div class="output-chips">${c.tokens.map(t=>badge(t)).join('')}</div>${split(`${label('Candidate catalog entries')}<div class="output-candidates">${c.matches.map(([a,b],i)=>`<div><span class="candidate-number">0${i+1}</span><div><strong>${a}</strong><small>${b}</small></div></div>`).join('')}</div>`,`${label('Matching decision')}${badge(c.decision,c.decision==='Candidate for review'?'':'warn')}${note('Evidence behind the decision',c.reason)}<p class="output-footnote">Concept preview of the matching workflow. No embeddings or production matcher run here.</p>`)} `
   })));
 }
@@ -133,7 +133,7 @@ function rag() {
 export const outputSpecs = {
   screening:{title:'A paper-screening review desk',kind:'Workflow reconstruction',artifact:'Classifier & evaluation workflow',note:'Invented abstracts and labels illustrate the review process. No study papers, private protocol or participant data are reproduced.',render:screening},
   teaming:{title:'Inside the shared kitchen task',kind:'Task-design illustration',artifact:'Modified research environment',note:'An original schematic of coordination choices. The 20 / 30 point recipe rewards are project settings; routes and dialogue are illustrative, not study observations.',render:teaming},
-  hospitality:{title:'From supplier text to a matching decision',kind:'In-progress concept preview',artifact:'Data-quality analysis & matching design',note:'Synthetic room descriptions and catalog entries. This illustrates the intended matching interaction; it is not a completed production system.',render:hospitality},
+  tui:{title:'From supplier text to a matching decision',kind:'In-progress concept preview',artifact:'Data-quality analysis & matching design',note:'Synthetic room descriptions and catalog entries. This illustrates the intended matching interaction; it is not a completed production system.',render:tui},
   synthetic:{title:'Two sources. Two very different estimates.',kind:'Reported analysis',artifact:'Source-stratified experiment report',note:'Sample sizes and treatment estimates come from the course report. Visuals do not imply statistical significance or observed subscription behavior.',render:synthetic},
   education:{title:'An aggregate view for support planning',kind:'Synthetic dashboard',artifact:'Privacy-aware analytics & reporting',note:'All school labels, rubric details, example text and displayed scores are invented. This preview explains the aggregate reporting workflow without disclosing district records.',render:education},
   crm:{title:'Turn model scores into a test audience',kind:'Synthetic workbench',artifact:'Propensity models & campaign experiment',note:'Illustrative audience groups, scores and counts. Actual experiment results are kept separate from the fictional selection preview.',render:crm},
@@ -159,7 +159,7 @@ export function outputThumbnail(id) {
   const art={
     screening:doc,
     teaming:Array.from({length:24},(_,i)=>`<rect x="${16+i%6*18}" y="${10+Math.floor(i/6)*15}" width="14" height="11" rx="2" class="${[8,16].includes(i)?'mini-fill':''}"/>`).join(''),
-    hospitality:'<rect x="10" y="22" width="42" height="30" rx="3"/><path d="M58 37H76 M70 32L76 37L70 42" class="mini-line"/><rect x="84" y="9" width="43" height="16" rx="3" class="mini-fill"/><rect x="84" y="30" width="43" height="16" rx="3"/><rect x="84" y="51" width="43" height="16" rx="3"/>',
+    tui:'<rect x="10" y="22" width="42" height="30" rx="3"/><path d="M58 37H76 M70 32L76 37L70 42" class="mini-line"/><rect x="84" y="9" width="43" height="16" rx="3" class="mini-fill"/><rect x="84" y="30" width="43" height="16" rx="3"/><rect x="84" y="51" width="43" height="16" rx="3"/>',
     synthetic:'<path d="M18 58H123" class="mini-grid"/><rect x="35" y="54" width="24" height="4" class="mini-fill"/><rect x="81" y="14" width="24" height="44" class="mini-fill"/>',
     risk:chart,education:rows,crm:rows,power:Array.from({length:8},(_,i)=>`<rect x="${18+i%4*27}" y="${14+Math.floor(i/4)*26}" width="21" height="20" rx="3" class="${i<5?'mini-fill':''}"/>`).join(''),
     voc:'<circle cx="32" cy="26" r="14"/><circle cx="70" cy="19" r="10"/><circle cx="105" cy="40" r="18" class="mini-fill"/><circle cx="59" cy="52" r="13"/>',

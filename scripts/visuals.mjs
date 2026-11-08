@@ -51,7 +51,7 @@ const effectRow = (label,n,value) => `<div class="effect-row"><span>${label}<sma
 export function projectVisualHTML(p) {
   if(['screening','teaming','risk','education','crm'].includes(p.id)) return legacyVisualHTML(p);
   const figures = {
-    hospitality: {
+    tui: {
       title:'What information supports a match?',label:'SYNTHETIC EXAMPLES',
       body:switches('room','Explore a description',[
         {label:'Room type and attributes',body:`<blockquote class="sample-text">“Double room with a balcony and sea view”</blockquote><div class="token-row"><span>Type: double room</span><span>Outdoor: balcony</span><span>View: sea</span></div>${pipeline([['Parse','Separate type and attributes'],['Retrieve','Find catalog candidates'],['Check','Compare required attributes'],['Propose','Candidate + explanation']])}<p class="figure-result">A room-type candidate can be considered, subject to the catalog’s rules.</p>`},
