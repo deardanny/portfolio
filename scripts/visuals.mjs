@@ -25,7 +25,7 @@ function legacyVisualHTML(p) {
           <div class="rp-inline-pipeline"><span>Consumer feedback</span><span aria-hidden="true">→</span><span>NLP signals & summaries</span><span aria-hidden="true">→</span><span>Power BI</span></div>`,
         caption:'Reported accuracy on human-labeled reviews. The production workflow processes 20,000+ reviews and social posts per day across 100+ products.'
       },
-      basd: {
+      education: {
         title:'From evaluation records to themes', label:'PRIVACY-AWARE WORKFLOW',
         body:`<div class="rp-data-source"><div><strong>50,000+</strong><span>Evaluation records standardized</span></div><div><strong>25,000+</strong><span>Qualitative comments analyzed</span></div></div>
           <div class="rp-pipeline"><div class="rp-node"><strong>Prepare</strong><span>Standardize records</span></div><div class="rp-node"><strong>Mask PII</strong><span>spaCy NER + rules</span></div><div class="rp-node"><strong>Find themes</strong><span>Claude Haiku / Sonnet</span></div><div class="rp-node"><strong>Compare</strong><span>Power BI reporting</span></div></div>
@@ -49,9 +49,9 @@ const switches = (id,label,items) => `<div class="figure-explorer" data-switch><
 const effectRow = (label,n,value) => `<div class="effect-row"><span>${label}<small>n = ${n}</small></span><div class="effect-track" aria-hidden="true"><i style="left:${value<0?50+value*50:50}%;width:${Math.abs(value)*50}%"></i></div><strong>${value>=0?'+':''}${value.toFixed(3)}</strong></div>`;
 
 export function projectVisualHTML(p) {
-  if(['screening','teaming','risk','basd','crm'].includes(p.id)) return legacyVisualHTML(p);
+  if(['screening','teaming','risk','education','crm'].includes(p.id)) return legacyVisualHTML(p);
   const figures = {
-    tui: {
+    hospitality: {
       title:'What information supports a match?',label:'SYNTHETIC EXAMPLES',
       body:switches('room','Explore a description',[
         {label:'Room type and attributes',body:`<blockquote class="sample-text">“Double room with a balcony and sea view”</blockquote><div class="token-row"><span>Type: double room</span><span>Outdoor: balcony</span><span>View: sea</span></div>${pipeline([['Parse','Separate type and attributes'],['Retrieve','Find catalog candidates'],['Check','Compare required attributes'],['Propose','Candidate + explanation']])}<p class="figure-result">A room-type candidate can be considered, subject to the catalog’s rules.</p>`},

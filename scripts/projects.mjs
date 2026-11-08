@@ -1,5 +1,5 @@
 export { projectVisualHTML } from './visuals.mjs';
-export const featuredIds = ['screening','teaming','tui','risk','basd','power'];
+export const featuredIds = ['screening','teaming','hospitality','risk','education','power'];
 export const groups = [
   {id:'research',label:'Research & evaluation',description:'Language models, human decisions, and the evidence between them.'},
   {id:'applied',label:'Applied machine learning',description:'From language and predictive models to decisions people can use.'},
@@ -35,7 +35,7 @@ export const projects = [
     materials:'Experiment-design schematic; participant records and private research code are not included.'
   },
   {
-    id:'tui',group:'research',title:'Normalizing hotel room descriptions',meta:'TUI Group × Carnegie Mellon University · Capstone',
+    id:'hospitality',group:'research',title:'Normalizing hotel room descriptions',meta:'Travel & Hospitality Partner (Confidential) × Carnegie Mellon University · Capstone',
     resourceStatus:'Client materials not public',
     status:'In progress',period:'Fall 2026',role:'ML contributor · team capstone',scope:'Text-to-catalog matching',
     tags:['NLP','Entity normalization','Retrieval','Data quality'],signal:'Free text → standard catalog',signalContext:'Industry capstone',
@@ -80,7 +80,7 @@ export const projects = [
     ],materials:'The interactive dashboard is an original portfolio demo with fictional brands, records, and figures. It illustrates the workflow rather than reproducing company screens or results. Sanitized methodology notebooks are public; the example notebook covers brand classification within the wider platform.'
   },
   {
-    id:'basd',group:'applied',title:'Privacy-aware teacher feedback analysis',meta:'Butler Area School District · Internship',
+    id:'education',group:'applied',title:'Privacy-aware teacher feedback analysis',meta:'Public School District (Confidential) · Internship',
     resourceStatus:'District materials not public',
     status:'Completed internship',period:'Summer 2026',role:'Data pipeline, NLP & dashboard development',scope:'50,000+ records · 25,000+ comments',
     tags:['Python','spaCy','Claude','Power BI'],signal:'25,000+ qualitative comments',signalContext:'Privacy-aware analysis',
